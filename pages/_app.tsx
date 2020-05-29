@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     [theme.breakpoints.down('xs')]: {
       opacity: showMobileMenu => (showMobileMenu ? 0 : 1),
-      pointerEvents: showMobileMenu => (showMobileMenu ? 'none' : undefined),
+      pointerEvents: showMobileMenu => (showMobileMenu ? 'none' : 'auto'),
     },
   },
   '@global': {
