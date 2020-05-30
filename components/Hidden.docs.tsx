@@ -1,22 +1,11 @@
 import React, { ReactNode } from 'react'
-import Typography from '@material-ui/core/Typography'
 import Box from 'components/Box'
 import Stack from 'components/Stack'
 import Hidden from 'components/Hidden'
+import Text from 'components/Text'
 
 const Container = ({ children }: { children: ReactNode }) => (
   <Box bgcolor='#ddd'>{children}</Box>
-)
-
-interface TextProps {
-  children: ReactNode
-  size?: 'small' | 'standard'
-}
-
-const Text = ({ children, size = 'standard' }: TextProps) => (
-  <Typography variant={size === 'standard' ? 'body1' : 'body2'}>
-    {children}
-  </Typography>
 )
 
 const docs = {
