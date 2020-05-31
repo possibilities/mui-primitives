@@ -7,9 +7,9 @@
   },
   "scripts": {
     "dev": "concurrently -n \"web,play\"  -c \"magenta,greenBright\" \"next dev --port 2222\" \"OPEN_TAB=false playroom start\"",
-    "build": "next build",
-    "export": "next export -o export-out",
-    "export-and-serve": "yarn build && yarn export && serve export-out --no-clipboard",
+    "build-docs": "next build",
+    "export-docs": "next export -o docs-out",
+    "export-docs-and-serve": "yarn build-docs && yarn export-docs && serve docs-out --no-clipboard",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "playroom": "playroom start",
     "playroom:build": "playroom build"
@@ -30,8 +30,8 @@
     "@types/react-syntax-highlighter": "^11.0.4",
     "@typescript-eslint/eslint-plugin": "^3.0.1",
     "@typescript-eslint/parser": "^2.33.0",
+    "@zeit/ncc": "^0.22.3",
     "babel-loader": "^8.1.0",
-    "babel-plugin-module-resolver": "^4.0.0",
     "concurrently": "^5.2.0",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",

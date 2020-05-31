@@ -1,7 +1,7 @@
 import React from 'react'
-import Box from 'components/Box'
+import Box from './Box'
 
-interface PlaceholderProps {
+export interface PlaceholderProps {
   width?: number | string
   height?: number
   label?: string

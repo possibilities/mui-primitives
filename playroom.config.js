@@ -6,7 +6,6 @@ module.exports = {
   port: 2223,
   snippets: './playroom/snippets.tsx',
   frameComponent: './playroom/Frame.tsx',
-  // baseUrl: '/playroom',
   openBrowser: false,
   webpackConfig: () => ({
     module: {
@@ -17,16 +16,6 @@ module.exports = {
           options: {
             plugins: [
               require.resolve('@babel/plugin-proposal-export-default-from'),
-              [
-                'module-resolver',
-                {
-                  root: ['.'],
-                  alias: {
-                    modules: './modules',
-                    components: './components',
-                  },
-                },
-              ],
             ],
             presets: [
               require.resolve('@babel/preset-env'),

@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
-import Stack from 'components/Stack'
+import Stack from '../components/Stack'
 
 const Page = () => (
   <Stack space={2}>

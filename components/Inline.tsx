@@ -1,31 +1,28 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
+import Box from './Box'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 import { useTheme } from '@material-ui/core/styles'
-import ensureArray from 'modules/ensureArray'
+import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
-import alignPropToFlexboxAlign from 'modules/alignPropToFlexboxAlign'
-import alignYPropToFlexboxAlign from 'modules/alignYPropToFlexboxAlign'
-import useNegativeTopMargin from 'modules/useNegativeTopMargin'
+import getFlexboxAlignForAlignProp from '../modules/getFlexboxAlignForAlignProp'
+import getFlexboxAlignForAlignYProp from '../modules/getFlexboxAlignForAlignYProp'
+import useNegativeTopMargin from '../modules/useNegativeTopMargin'
+
+import { AlignProp } from '../modules/getFlexboxAlignForAlignProp'
+import { AlignYProp } from '../modules/getFlexboxAlignForAlignYProp'
 
 const fill = <T extends {}>(defaultFillValue: T, lengthOfNewArray: number) =>
   [...Array(lengthOfNewArray).keys()].map(() => defaultFillValue)
 
 const negative = (positiveNumber: number) => -positiveNumber
 
-interface InlineProps {
+export interface InlineProps {
   children: ReactNode
   space: ResponsiveProp<number>
   align?: ResponsiveProp<AlignProp>
   alignY?: ResponsiveProp<AlignYProp>
   collapseBelow?: Breakpoint
 }
-
-const getFlexboxAlignForAlignProp = (align: AlignProp) =>
-  alignPropToFlexboxAlign[align]
-
-const getFlexboxAlignForAlignYProp = (alignY: AlignYProp) =>
-  alignYPropToFlexboxAlign[alignY]
 
 const useResponsiveDisplay = (collapseBelow?: Breakpoint) => {
   const theme = useTheme()
@@ -45,9 +42,9 @@ const Inline = ({
   alignY,
   collapseBelow,
 }: InlineProps) => {
-  const responsivePadding = ensureArray(space || 0)
-  const responsiveAlign = ensureArray(align || 'left')
-  const responsiveAlignY = ensureArray(alignY || 'top')
+  const responsivePadding = toResponsiveProps(space || 0)
+  const responsiveAlign = toResponsiveProps(align || 'left')
+  const responsiveAlignY = toResponsiveProps(alignY || 'top')
   const display = useResponsiveDisplay(collapseBelow)
   const justifyContent = responsiveAlign.map(getFlexboxAlignForAlignProp)
   const alignItems = responsiveAlignY.map(getFlexboxAlignForAlignYProp)

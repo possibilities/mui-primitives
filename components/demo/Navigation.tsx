@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Link from 'components/Link'
-import Stack from 'components/Stack'
+import Link from '../Link'
+import Stack from '../Stack'
 
 const Navigation = () => (
   <Stack space={2}>

@@ -34,7 +34,7 @@ const NextLinkWithAnchor: ForwardRefRenderFunction<
   </NextLink>
 )
 
-interface LinkProps {
+export interface LinkProps {
   href: string
   children: ReactNode
   as?: string

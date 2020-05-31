@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
-import Inline from 'components/Inline'
-import Placeholder from 'components/Placeholder'
+import Box from './Box'
+import Inline from './Inline'
+import Placeholder from './Placeholder'
 
 const Container = ({ children }: { children: ReactNode }) => (
   <Box bgcolor='#ddd' maxWidth={240}>

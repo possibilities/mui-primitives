@@ -1,6 +1,6 @@
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
+import Box from './Box'
 import { useTheme } from '@material-ui/core/styles'
 
 export interface HiddenProps {

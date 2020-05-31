@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
-import Placeholder from 'components/Placeholder'
-import Box from 'components/Box'
-import Tiles from 'components/Tiles'
+import Placeholder from './Placeholder'
+import Box from './Box'
+import Tiles from './Tiles'
 
 const Container = ({ children }: { children: ReactNode }) => (
   <Box bgcolor='#ddd'>{children}</Box>

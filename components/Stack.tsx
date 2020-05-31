@@ -1,16 +1,15 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
-import ensureArray from 'modules/ensureArray'
+import Box from './Box'
+import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import { useTheme } from '@material-ui/core/styles'
-import alignPropToFlexboxAlign from 'modules/alignPropToFlexboxAlign'
+import getFlexboxAlignForAlignProp from '../modules/getFlexboxAlignForAlignProp'
 import flattenChildren from 'react-keyed-flatten-children'
-import Hidden, { HiddenProps } from 'components/Hidden'
-import useNegativeTopMargin from 'modules/useNegativeTopMargin'
+import Hidden, { HiddenProps } from './Hidden'
+import useNegativeTopMargin from '../modules/useNegativeTopMargin'
 
-const getFlexboxAlignForAlignProp = (align: AlignProp) =>
-  alignPropToFlexboxAlign[align]
+import { AlignProp } from '../modules/getFlexboxAlignForAlignProp'
 
-interface StackProps {
+export interface StackProps {
   children: ReactNode
   space: ResponsiveProp<number>
   align?: ResponsiveProp<AlignProp>
@@ -40,8 +39,8 @@ const useStackItemResponsiveDisplay = (stackItem: ReactNode) => {
 
 const Stack = ({ children, space, align }: StackProps) => {
   const alignItems =
-    align && ensureArray(align).map(getFlexboxAlignForAlignProp)
-  const responsivePadding = ensureArray(space || 0)
+    align && toResponsiveProps(align).map(getFlexboxAlignForAlignProp)
+  const responsivePadding = toResponsiveProps(space || 0)
   const classes = useNegativeTopMargin(responsivePadding)
   return (
     <Box className={classes.root}>
