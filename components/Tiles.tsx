@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react'
 import Box from 'components/Box'
-import ensureArray from 'modules/ensureArray'
+import toResponsiveProps, { ResponsiveProp } from 'modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
 import useNegativeTopMargin from 'modules/useNegativeTopMargin'
 
-interface TilesProps {
+export interface TilesProps {
   children: ReactNode
   space: ResponsiveProp<number>
   columns: ResponsiveProp<number>
@@ -13,8 +13,8 @@ interface TilesProps {
 const negative = (positiveNumber: number) => -positiveNumber
 
 export const Tiles = ({ children, space, columns }: TilesProps) => {
-  const responsivePadding = ensureArray(space || 0)
-  const responsiveColumns = ensureArray(columns)
+  const responsivePadding = toResponsiveProps(space || 0)
+  const responsiveColumns = toResponsiveProps(columns)
   const classes = useNegativeTopMargin(responsivePadding)
   const marginLeft = responsivePadding.map(negative)
   const flexBasis = responsiveColumns.map(columns => 100 / columns + '%')

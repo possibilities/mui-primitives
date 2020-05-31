@@ -2,11 +2,13 @@ import React, { ReactNode } from 'react'
 import Box from 'components/Box'
 import { useTheme } from '@material-ui/core/styles'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
-import ensureArray from 'modules/ensureArray'
-import alignYPropToFlexboxAlign from 'modules/alignYPropToFlexboxAlign'
+import toResponsiveProps, { ResponsiveProp } from 'modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
 import useNegativeTopMargin from 'modules/useNegativeTopMargin'
 import Column, { ColumnProps } from 'components/Column'
+import getFlexboxAlignForAlignYProp, {
+  AlignYProp,
+} from 'modules/getFlexboxAlignForAlignYProp'
 
 const widthPropToDecimal = {
   content: undefined,
@@ -23,15 +25,12 @@ const widthPropToDecimal = {
 
 type ColumnWidthProp = keyof typeof widthPropToDecimal
 
-const getFlexboxAlignForAlignYProp = (alignY: AlignYProp) =>
-  alignYPropToFlexboxAlign[alignY]
-
 const negative = (positiveNumber: number) => -positiveNumber
 
 const fill = <T extends {}>(defaultFillValue: T, lengthOfNewArray: number) =>
   [...Array(lengthOfNewArray).keys()].map(() => defaultFillValue)
 
-interface ColumnsProps {
+export interface ColumnsProps {
   children: ReactNode
   reverse?: boolean
   space?: ResponsiveProp<number>
@@ -62,12 +61,12 @@ const Columns = ({
   space,
   reverse,
 }: ColumnsProps) => {
-  const responsivePadding = ensureArray(space || 0)
+  const responsivePadding = toResponsiveProps(space || 0)
   const classes = useNegativeTopMargin(responsivePadding)
   const display = useResponsiveDisplay(collapseBelow)
   const marginLeft = responsivePadding.map(negative)
   const alignItems = alignY
-    ? ensureArray(alignY).map(getFlexboxAlignForAlignYProp)
+    ? toResponsiveProps(alignY).map(getFlexboxAlignForAlignYProp)
     : undefined
   const flexDirection = reverse ? 'row-reverse' : 'row'
   return (

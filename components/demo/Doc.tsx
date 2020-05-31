@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, ReactNode } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import PlayIcon from '@material-ui/icons/PlayCircleOutline'
@@ -11,6 +11,22 @@ import typescriptParser from 'prettier/parser-typescript'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { ghcolors } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { createUrl } from 'playroom'
+
+export interface Doc {
+  name: string
+  examples: Example[]
+}
+
+export interface Example {
+  description: string
+  Example: () => JSX.Element
+  Container: ({ children }: { children: ReactNode }) => JSX.Element
+}
+
+export interface Code {
+  code: string
+  playroomUrl: string
+}
 
 const baseUrl =
   process.env.NODE_ENV === 'development'
@@ -26,7 +42,7 @@ const usePrettierToFormatSnippet = (snippet: string) =>
     })
     .replace(/^;/, '')
 
-export const preRenderCodeExample = (example: Example): CodeExample => {
+export const preRenderCodeExample = (example: Example): Code => {
   const code = usePrettierToFormatSnippet(
     reactElementToJsxString(example.Example(), {
       useBooleanShorthandSyntax: true,
@@ -46,13 +62,7 @@ export const preRenderCodeExamplesToAvoidMinifiedExamplesInProduction = async (
   },
 })
 
-const Doc = ({
-  doc,
-  codeExamples,
-}: {
-  doc: Doc
-  codeExamples: CodeExample[]
-}) => {
+const Doc = ({ doc, codeExamples }: { doc: Doc; codeExamples: Code[] }) => {
   return (
     <Stack space={2}>
       <Typography variant='h2'>{doc.name}</Typography>

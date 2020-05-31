@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Typography from '@material-ui/core/Typography'
 
-interface TextProps {
+export interface TextProps {
   children: ReactNode
   size?: 'small' | 'standard'
 }
