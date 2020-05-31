@@ -20,8 +20,7 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "playroom": "playroom start",
     "playroom:build": "playroom build",
-    "generate-static-types": "./generate-static-types.sh > ./static-types.json",
-    "prepack": "yarn build"
+    "generate-static-types": "./generate-static-types.sh > ./static-types.json"
   },
   "dependencies": {
     "react-keyed-flatten-children": "^1.2.0"

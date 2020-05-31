@@ -18,8 +18,7 @@
     "isolatedModules": true,
     "declaration": true,
     "jsx": "preserve",
-    "outDir": "./typescript-out",
-    "noEmit": true
+    "outDir": "./typescript-out"
   },
   "exclude": [
     "node_modules",
