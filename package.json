@@ -8,7 +8,8 @@
   "main": "./typescript-out/index.js",
   "types": "./typescript-out/index.d.ts",
   "files": [
-    "typescript-out/**"
+    "typescript-out/**",
+    "static-types.json"
   ],
   "scripts": {
     "dev": "yarn generate-static-types && concurrently -n \"web,play\"  -c \"magenta,greenBright\" \"next dev --port 2222\" \"OPEN_TAB=false playroom start\"",
