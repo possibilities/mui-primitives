@@ -6,7 +6,6 @@ module.exports = {
   port: 2223,
   snippets: './playroom/snippets.tsx',
   frameComponent: './playroom/Frame.tsx',
-  // baseUrl: '/playroom',
   openBrowser: false,
   webpackConfig: () => ({
     module: {
