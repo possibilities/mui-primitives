@@ -21,7 +21,7 @@
     "playroom": "playroom start",
     "playroom:build": "playroom build",
     "generate-static-types": "./generate-static-types.sh > ./static-types.json",
-    "prepublish": "yarn build"
+    "prepack": "yarn build"
   },
   "dependencies": {
     "react-keyed-flatten-children": "^1.2.0"
