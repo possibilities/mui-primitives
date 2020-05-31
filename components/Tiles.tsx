@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
-import toResponsiveProps, { ResponsiveProp } from 'modules/toResponsiveProps'
+import Box from './Box'
+import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
-import useNegativeTopMargin from 'modules/useNegativeTopMargin'
+import useNegativeTopMargin from '../modules/useNegativeTopMargin'
 
 export interface TilesProps {
   children: ReactNode

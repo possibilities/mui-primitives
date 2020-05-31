@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
+import Box from './Box'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 import { useTheme } from '@material-ui/core/styles'
-import toResponsiveProps, { ResponsiveProp } from 'modules/toResponsiveProps'
+import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
-import getFlexboxAlignForAlignProp from 'modules/getFlexboxAlignForAlignProp'
-import getFlexboxAlignForAlignYProp from 'modules/getFlexboxAlignForAlignYProp'
-import useNegativeTopMargin from 'modules/useNegativeTopMargin'
+import getFlexboxAlignForAlignProp from '../modules/getFlexboxAlignForAlignProp'
+import getFlexboxAlignForAlignYProp from '../modules/getFlexboxAlignForAlignYProp'
+import useNegativeTopMargin from '../modules/useNegativeTopMargin'
 
-import { AlignProp } from 'modules/getFlexboxAlignForAlignProp'
-import { AlignYProp } from 'modules/getFlexboxAlignForAlignYProp'
+import { AlignProp } from '../modules/getFlexboxAlignForAlignProp'
+import { AlignYProp } from '../modules/getFlexboxAlignForAlignYProp'
 
 const fill = <T extends {}>(defaultFillValue: T, lengthOfNewArray: number) =>
   [...Array(lengthOfNewArray).keys()].map(() => defaultFillValue)

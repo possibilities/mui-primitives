@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
-import Placeholder from 'components/Placeholder'
+import Box from './Box'
+import Placeholder from './Placeholder'
 
 const Container = ({ children }: { children: ReactNode }) => (
   <Box bgcolor='#ddd' width={300}>

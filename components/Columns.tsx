@@ -1,14 +1,14 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
+import Box from './Box'
 import { useTheme } from '@material-ui/core/styles'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
-import toResponsiveProps, { ResponsiveProp } from 'modules/toResponsiveProps'
+import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
-import useNegativeTopMargin from 'modules/useNegativeTopMargin'
-import Column, { ColumnProps } from 'components/Column'
+import useNegativeTopMargin from '../modules/useNegativeTopMargin'
+import Column, { ColumnProps } from './Column'
 import getFlexboxAlignForAlignYProp, {
   AlignYProp,
-} from 'modules/getFlexboxAlignForAlignYProp'
+} from '../modules/getFlexboxAlignForAlignYProp'
 
 const widthPropToDecimal = {
   content: undefined,

@@ -17,16 +17,6 @@ module.exports = {
           options: {
             plugins: [
               require.resolve('@babel/plugin-proposal-export-default-from'),
-              [
-                'module-resolver',
-                {
-                  root: ['.'],
-                  alias: {
-                    modules: './modules',
-                    components: './components',
-                  },
-                },
-              ],
             ],
             presets: [
               require.resolve('@babel/preset-env'),

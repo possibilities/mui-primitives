@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react'
-import Box from 'components/Box'
-import toResponsiveProps, { ResponsiveProp } from 'modules/toResponsiveProps'
+import Box from './Box'
+import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import { useTheme } from '@material-ui/core/styles'
-import getFlexboxAlignForAlignProp from 'modules/getFlexboxAlignForAlignProp'
+import getFlexboxAlignForAlignProp from '../modules/getFlexboxAlignForAlignProp'
 import flattenChildren from 'react-keyed-flatten-children'
-import Hidden, { HiddenProps } from 'components/Hidden'
-import useNegativeTopMargin from 'modules/useNegativeTopMargin'
+import Hidden, { HiddenProps } from './Hidden'
+import useNegativeTopMargin from '../modules/useNegativeTopMargin'
 
-import { AlignProp } from 'modules/getFlexboxAlignForAlignProp'
+import { AlignProp } from '../modules/getFlexboxAlignForAlignProp'
 
 export interface StackProps {
   children: ReactNode

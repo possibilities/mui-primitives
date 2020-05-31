@@ -2,8 +2,8 @@ import React from 'react'
 import Doc, {
   Code,
   preRenderCodeExamplesToAvoidMinifiedExamplesInProduction,
-} from 'components/demo/Doc'
-import doc from 'components/Hidden.docs'
+} from '../../components/demo/Doc'
+import doc from '../../components/Hidden.docs'
 
 export const getStaticProps = async () =>
   preRenderCodeExamplesToAvoidMinifiedExamplesInProduction(doc)

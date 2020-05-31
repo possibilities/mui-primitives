@@ -1,9 +1,9 @@
 import React, { ReactNode } from 'react'
-import Placeholder from 'components/Placeholder'
-import Box from 'components/Box'
-import Stack from 'components/Stack'
-import Column from 'components/Column'
-import Columns from 'components/Columns'
+import Placeholder from './Placeholder'
+import Box from './Box'
+import Stack from './Stack'
+import Column from './Column'
+import Columns from './Columns'
 
 const Container = ({ children }: { children: ReactNode }) => (
   <Box bgcolor='#ddd'>{children}</Box>

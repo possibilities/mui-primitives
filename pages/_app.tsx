@@ -6,11 +6,11 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../theme'
 import { AppProps } from 'next/app'
 import { makeStyles } from '@material-ui/core/styles'
-import Box from 'components/Box'
+import Box from '../components/Box'
 import Link from 'next/link'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
-import Navigation from 'components/demo/Navigation'
+import Navigation from '../components/demo/Navigation'
 
 const menuWidth = 120
 const containerMaxWidth = 1280
