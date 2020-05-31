@@ -5,8 +5,14 @@
   "engines": {
     "node": "12.x"
   },
+  "main": "./typescript-out/index.js",
+  "types": "./typescript-out/index.d.ts",
+  "files": [
+    "typescript-out/**"
+  ],
   "scripts": {
     "dev": "concurrently -n \"web,play\"  -c \"magenta,greenBright\" \"next dev --port 2222\" \"OPEN_TAB=false playroom start\"",
+    "build": "rimraf typescript-out && tsc --jsx react",
     "build-docs": "next build",
     "export-docs": "next export -o docs-out",
     "export-docs-and-serve": "yarn build-docs && yarn export-docs && serve docs-out --no-clipboard",
@@ -30,7 +36,6 @@
     "@types/react-syntax-highlighter": "^11.0.4",
     "@typescript-eslint/eslint-plugin": "^3.0.1",
     "@typescript-eslint/parser": "^2.33.0",
-    "@zeit/ncc": "^0.22.3",
     "babel-loader": "^8.1.0",
     "concurrently": "^5.2.0",
     "eslint": "^7.1.0",
@@ -44,6 +49,7 @@
     "react-dom": "^16.13.1",
     "react-element-to-jsx-string": "^14.3.1",
     "react-syntax-highlighter": "^12.2.1",
+    "rimraf": "^3.0.2",
     "serve": "^11.3.1",
     "typescript": "^3.9.2"
   }
