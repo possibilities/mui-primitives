@@ -23,18 +23,6 @@
       "body"
     ],
     "clone": [],
-    "css": [
-      "borderTop",
-      "borderRight",
-      "borderBottom",
-      "borderLeft",
-      "borderColor",
-      "borderRadius\", any>> & Partial<Record<\"display",
-      "displayPrint",
-      "overflow",
-      "textOverflow",
-      "visibility"
-    ],
     "defaultChecked": [],
     "defaultValue": [],
     "suppressContentEditableWarning": [],
