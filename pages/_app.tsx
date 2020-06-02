@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../theme'
 import { AppProps } from 'next/app'
 import { makeStyles } from '@material-ui/core/styles'
+import NoSsr from '@material-ui/core/NoSsr'
 import Box from '../components/Box'
 import Link from 'next/link'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -135,9 +136,11 @@ const App = (props: AppProps) => {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <NoSsr>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </NoSsr>
       </ThemeProvider>
     </>
   )

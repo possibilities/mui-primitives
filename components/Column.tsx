@@ -15,8 +15,9 @@ export interface ColumnProps {
     | '4/5'
 }
 
-const Column = ({ children, width: _width }: ColumnProps) => {
-  return <div>{children}</div>
-}
+const Column = ({
+  children,
+  width: _widthIsUsedByParentColumnsOnly,
+}: ColumnProps) => <div>{children}</div>
 
 export default Column

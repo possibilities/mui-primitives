@@ -1,7 +1,8 @@
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 import React, { ReactNode } from 'react'
-import Box from './Box'
-import { useTheme } from '@material-ui/core/styles'
+import { Theme, withTheme } from '@material-ui/core/styles'
+import styled from 'styled-components'
+import toResponsiveBreakpoint from '../modules/toResponsiveBreakpoint'
 
 export interface HiddenProps {
   children: ReactNode
@@ -10,15 +11,21 @@ export interface HiddenProps {
   below?: Breakpoint
 }
 
-const Hidden = ({ above, below, inline, children }: HiddenProps) => {
-  const theme = useTheme()
+type CssDisplayValue = 'inline' | 'block' | 'none'
+
+const hiddenStyles = ({
+  above,
+  below,
+  inline,
+  theme,
+}: HiddenProps & { theme: Theme }) => {
   const indexOfHideBelowBreakpoint = below
     ? theme.breakpoints.keys.indexOf(below)
     : -1
   const indexOfHideAboveBreakpoint = above
     ? theme.breakpoints.keys.indexOf(above)
     : theme.breakpoints.keys.length
-  const display = theme.breakpoints.keys.map(
+  const responsiveDisplay = theme.breakpoints.keys.map(
     (_key: Breakpoint, index: number) => {
       return index <= indexOfHideAboveBreakpoint &&
         index >= indexOfHideBelowBreakpoint
@@ -28,10 +35,29 @@ const Hidden = ({ above, below, inline, children }: HiddenProps) => {
         : 'none'
     },
   )
+  return responsiveDisplay.map(
+    (display: CssDisplayValue, index: number) =>
+      `
+        ${toResponsiveBreakpoint(theme, index)} {
+          display: ${display};
+        }
+      `,
+  )
+}
+const HiddenSpan = withTheme(styled.span<HiddenProps>`
+  ${hiddenStyles}
+`)
+
+const HiddenDiv = withTheme(styled.div<HiddenProps>`
+  ${hiddenStyles}
+`)
+
+const Hidden = ({ above, below, inline, children }: HiddenProps) => {
+  const HiddenElement = inline ? HiddenSpan : HiddenDiv
   return (
-    <Box component={inline ? 'span' : 'div'} display={display}>
+    <HiddenElement above={above} below={below} inline={inline}>
       {children}
-    </Box>
+    </HiddenElement>
   )
 }
 

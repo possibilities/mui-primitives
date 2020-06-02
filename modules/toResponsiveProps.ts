@@ -1,6 +1,10 @@
 export type ResponsiveProp<T> = T | T[]
 
-const toResponsiveProps = <T extends {}>(array: T | T[]): T[] =>
-  Array.isArray(array) ? array : [array]
+const toResponsiveProps = <T extends {}>(arrayOrItem: T | T[]): T[] =>
+  Array.isArray(arrayOrItem)
+    ? arrayOrItem
+    : arrayOrItem === undefined
+    ? []
+    : [arrayOrItem]
 
 export default toResponsiveProps
