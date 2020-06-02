@@ -1,8 +1,10 @@
 import React, { ReactNode } from 'react'
-import Box from './Box'
 import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
+import { withTheme } from '@material-ui/core/styles'
 import flattenChildren from 'react-keyed-flatten-children'
-import useNegativeTopMargin from '../modules/useNegativeTopMargin'
+import styled from 'styled-components'
+import SetTopMarginSpacingHack from '../components/SetTopMarginSpacingHack'
+import toResponsiveBreakpoint from '../modules/toResponsiveBreakpoint'
 
 export interface TilesProps {
   children: ReactNode
@@ -10,33 +12,69 @@ export interface TilesProps {
   columns: ResponsiveProp<number>
 }
 
-const negative = (positiveNumber: number) => -positiveNumber
+const SetTilesSpacing = withTheme(styled.div<TilesProps>`
+  flex-wrap: wrap;
+  display: flex;
+  ${({ space, theme }) =>
+    space &&
+    toResponsiveProps(space).map(
+      (space, index) =>
+        space &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            margin-left: ${theme.spacing(-space)}px;
+          }
+        `,
+    )}
+`)
 
-export const Tiles = ({ children, space, columns }: TilesProps) => {
-  const responsivePadding = toResponsiveProps(space || 0)
-  const responsiveColumns = toResponsiveProps(columns)
-  const classes = useNegativeTopMargin(responsivePadding)
-  const marginLeft = responsivePadding.map(negative)
-  const flexBasis = responsiveColumns.map(columns => 100 / columns + '%')
-  return (
-    <Box className={classes.root}>
-      <Box marginLeft={marginLeft} flexWrap='wrap' display='flex'>
-        {flattenChildren(children).map((child, index) => (
-          <Box
-            minWidth='0%'
-            flexGrow='0'
-            flexShrink='0'
-            flexBasis={flexBasis}
-            key={index}
-          >
-            <Box height='100%' paddingTop={space} paddingLeft={space}>
-              {child}
-            </Box>
-          </Box>
-        ))}
-      </Box>
-    </Box>
-  )
-}
+const SetTilesItemWidth = withTheme(styled.div<TilesProps>`
+  min-width: 0%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  ${({ theme, columns }) => {
+    if (columns === undefined) return
+    const responsiveFlexBasis = toResponsiveProps(columns).map(
+      columns => 100 / columns + '%',
+    )
+    return responsiveFlexBasis.map(
+      (flexBasis, index) =>
+        flexBasis &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+              flex-basis: ${flexBasis};
+          }
+        `,
+    )
+  }}
+`)
+
+const SetTilesItemSpacing = withTheme(styled.div<TilesProps>`
+  height: 100%;
+  ${({ space, theme }) =>
+    space &&
+    toResponsiveProps(space).map(
+      (space, index) =>
+        space &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            padding-top: ${theme.spacing(space)}px;
+            padding-left: ${theme.spacing(space)}px;
+          }
+        `,
+    )}
+`)
+
+const Tiles = ({ children: tilesItems, space, columns }: TilesProps) => (
+  <SetTopMarginSpacingHack space={space}>
+    <SetTilesSpacing space={space}>
+      {flattenChildren(tilesItems).map((tilesItem, tileIndex) => (
+        <SetTilesItemWidth key={tileIndex} columns={columns}>
+          <SetTilesItemSpacing space={space}>{tilesItem}</SetTilesItemSpacing>
+        </SetTilesItemWidth>
+      ))}
+    </SetTilesSpacing>
+  </SetTopMarginSpacingHack>
+)
 
 export default Tiles

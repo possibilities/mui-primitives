@@ -1,20 +1,19 @@
 import React, { ReactNode } from 'react'
-import Box from './Box'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
-import { useTheme } from '@material-ui/core/styles'
+import { withTheme } from '@material-ui/core/styles'
+import styled from 'styled-components'
 import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
 import getFlexboxAlignForAlignProp from '../modules/getFlexboxAlignForAlignProp'
 import getFlexboxAlignForAlignYProp from '../modules/getFlexboxAlignForAlignYProp'
-import useNegativeTopMargin from '../modules/useNegativeTopMargin'
+import toResponsiveBreakpoint from '../modules/toResponsiveBreakpoint'
 
 import { AlignProp } from '../modules/getFlexboxAlignForAlignProp'
 import { AlignYProp } from '../modules/getFlexboxAlignForAlignYProp'
+import SetTopMarginSpacingHack from '../components/SetTopMarginSpacingHack'
 
 const fill = <T extends {}>(defaultFillValue: T, lengthOfNewArray: number) =>
   [...Array(lengthOfNewArray).keys()].map(() => defaultFillValue)
-
-const negative = (positiveNumber: number) => -positiveNumber
 
 export interface InlineProps {
   children: ReactNode
@@ -24,57 +23,111 @@ export interface InlineProps {
   collapseBelow?: Breakpoint
 }
 
-const useResponsiveDisplay = (collapseBelow?: Breakpoint) => {
-  const theme = useTheme()
-  const collapseBelowBreakpointName = collapseBelow || theme.breakpoints.keys[0]
-  const indexOfCollapseBreakpoint = collapseBelow
-    ? theme.breakpoints.keys.indexOf(collapseBelowBreakpointName)
-    : 0
-  return indexOfCollapseBreakpoint > 0
-    ? [...fill('block', indexOfCollapseBreakpoint), 'flex']
-    : ['flex']
-}
+const SetInlineStyles = withTheme(styled.div<InlineProps>`
+  flex-wrap: wrap;
+  flex-direction: row;
+  ${({ alignY, theme }) =>
+    alignY &&
+    toResponsiveProps(alignY).map(
+      (alignY, index) =>
+        alignY &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            align-items: ${getFlexboxAlignForAlignYProp(alignY)};
+          }
+        `,
+    )}
+  ${({ align, theme }) =>
+    align &&
+    toResponsiveProps(align).map(
+      (align, index) =>
+        align &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            justify-content: ${getFlexboxAlignForAlignProp(align)};
+          }
+        `,
+    )}
+  ${({ space, theme }) =>
+    space &&
+    toResponsiveProps(space).map(
+      (space, index) =>
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            margin-left: ${theme.spacing(-space)}px;
+          }
+        `,
+    )}
+  ${({ collapseBelow, theme }) => {
+    const collapseBelowBreakpointName =
+      collapseBelow || theme.breakpoints.keys[0]
+    const indexOfCollapseBreakpoint = collapseBelow
+      ? theme.breakpoints.keys.indexOf(collapseBelowBreakpointName)
+      : 0
+    const responsiveDisplay =
+      indexOfCollapseBreakpoint > 0
+        ? [...fill('block', indexOfCollapseBreakpoint), 'flex']
+        : ['flex']
+    return responsiveDisplay.map(
+      (display, index) =>
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            display: ${display};
+          }
+        `,
+    )
+  }}
+`)
+
+const SetInlineItemStyles = withTheme(styled.div<InlineProps>`
+  min-width: 0%;
+  display: flex;
+  ${({ align, theme }) =>
+    align &&
+    toResponsiveProps(align).map(
+      (align, index) =>
+        align &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            justify-content: ${getFlexboxAlignForAlignProp(align)};
+          }
+        `,
+    )}
+  ${({ space, theme }) =>
+    space &&
+    toResponsiveProps(space).map(
+      (space, index) =>
+        space &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            padding-top: ${theme.spacing(space)}px;
+            padding-left: ${theme.spacing(space)}px;
+          }
+        `,
+    )}
+`)
 
 const Inline = ({
-  children,
   space,
   align,
   alignY,
   collapseBelow,
-}: InlineProps) => {
-  const responsivePadding = toResponsiveProps(space || 0)
-  const responsiveAlign = toResponsiveProps(align || 'left')
-  const responsiveAlignY = toResponsiveProps(alignY || 'top')
-  const display = useResponsiveDisplay(collapseBelow)
-  const justifyContent = responsiveAlign.map(getFlexboxAlignForAlignProp)
-  const alignItems = responsiveAlignY.map(getFlexboxAlignForAlignYProp)
-  const marginLeft = responsivePadding.map(negative)
-  const classes = useNegativeTopMargin(responsivePadding)
-  return (
-    <Box className={classes.root}>
-      <Box
-        flexWrap='wrap'
-        display={display}
-        flexDirection='row'
-        marginLeft={marginLeft}
-        alignItems={alignItems}
-        justifyContent={justifyContent}
-      >
-        {flattenChildren(children).map((child, index) => (
-          <Box
-            key={index}
-            minWidth='0%'
-            display='flex'
-            justifyContent={justifyContent}
-            paddingLeft={responsivePadding}
-            paddingTop={responsivePadding}
-          >
-            {child}
-          </Box>
-        ))}
-      </Box>
-    </Box>
-  )
-}
+  children: inlineItems,
+}: InlineProps) => (
+  <SetTopMarginSpacingHack space={space}>
+    <SetInlineStyles
+      space={space}
+      align={align}
+      alignY={alignY}
+      collapseBelow={collapseBelow}
+    >
+      {flattenChildren(inlineItems).map((inlineItem, inlineItemIndex) => (
+        <SetInlineItemStyles align={align} space={space} key={inlineItemIndex}>
+          {inlineItem}
+        </SetInlineItemStyles>
+      ))}
+    </SetInlineStyles>
+  </SetTopMarginSpacingHack>
+)
 
 export default Inline

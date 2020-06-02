@@ -1,11 +1,12 @@
 import React, { ReactNode } from 'react'
-import Box from './Box'
 import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
-import { useTheme } from '@material-ui/core/styles'
+import { withTheme } from '@material-ui/core/styles'
 import getFlexboxAlignForAlignProp from '../modules/getFlexboxAlignForAlignProp'
 import flattenChildren from 'react-keyed-flatten-children'
 import Hidden, { HiddenProps } from './Hidden'
-import useNegativeTopMargin from '../modules/useNegativeTopMargin'
+import styled from 'styled-components'
+import SetTopMarginSpacingHack from '../components/SetTopMarginSpacingHack'
+import toResponsiveBreakpoint from '../modules/toResponsiveBreakpoint'
 
 import { AlignProp } from '../modules/getFlexboxAlignForAlignProp'
 
@@ -20,42 +21,71 @@ const extractHiddenPropsFromChild = (child: ReactNode) =>
     ? (child.props as HiddenProps)
     : null
 
-const useStackItemResponsiveDisplay = (stackItem: ReactNode) => {
-  const theme = useTheme()
-  const hiddenProps = extractHiddenPropsFromChild(stackItem)
-  const indexOfHideBelowBreakpoint = hiddenProps?.below
-    ? theme.breakpoints.keys.indexOf(hiddenProps?.below)
-    : 0
-  const indexOfHideAboveBreakpoint = hiddenProps?.above
-    ? theme.breakpoints.keys.indexOf(hiddenProps?.above)
-    : theme.breakpoints.keys.length - 1
-  return theme.breakpoints.keys.map((_key, index) => {
-    return index <= indexOfHideAboveBreakpoint &&
-      index >= indexOfHideBelowBreakpoint
-      ? 'block'
-      : 'none'
-  })
-}
+const SetStackItemSpacing = withTheme(styled.div<StackProps>`
+  height: 100%;
+  ${({ space, theme }) =>
+    space &&
+    toResponsiveProps(space).map(
+      (space, index) =>
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            padding-top: ${theme.spacing(space)}px;
+          }
+        `,
+    )}
+  ${({ children: stackItem, theme }) => {
+    const hiddenProps = extractHiddenPropsFromChild(stackItem)
+    const indexOfHideBelowBreakpoint = hiddenProps?.below
+      ? theme.breakpoints.keys.indexOf(hiddenProps.below)
+      : 0
+    const indexOfHideAboveBreakpoint = hiddenProps?.above
+      ? theme.breakpoints.keys.indexOf(hiddenProps.above)
+      : theme.breakpoints.keys.length - 1
+    const responsiveDisplay = theme.breakpoints.keys.map(
+      (_key: string, index: number) => {
+        return index <= indexOfHideAboveBreakpoint &&
+          index >= indexOfHideBelowBreakpoint
+          ? 'block'
+          : 'none'
+      },
+    )
+    return responsiveDisplay.map(
+      (display: string, index: number) =>
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            display: ${display};
+          }
+        `,
+    )
+  }}
+`)
 
-const Stack = ({ children, space, align }: StackProps) => {
-  const alignItems =
-    align && toResponsiveProps(align).map(getFlexboxAlignForAlignProp)
-  const responsivePadding = toResponsiveProps(space || 0)
-  const classes = useNegativeTopMargin(responsivePadding)
-  return (
-    <Box className={classes.root}>
-      <Box display='flex' flexDirection='column' alignItems={alignItems}>
-        {flattenChildren(children).map((stackItem, index) => {
-          const display = useStackItemResponsiveDisplay(stackItem)
-          return (
-            <Box key={index} display={display} paddingTop={responsivePadding}>
-              {stackItem}
-            </Box>
-          )
-        })}
-      </Box>
-    </Box>
-  )
-}
+const SetStackAlignment = withTheme(styled.div<Pick<StackProps, 'align'>>`
+  display: flex;
+  flex-direction: column;
+  ${({ align, theme }) =>
+    align &&
+    toResponsiveProps(align).map(
+      (align, index) =>
+        align &&
+        `
+          ${toResponsiveBreakpoint(theme, index)} {
+            align-items: ${getFlexboxAlignForAlignProp(align)};
+          }
+        `,
+    )}
+`)
+
+const Stack = ({ children: stackItems, space, align }: StackProps) => (
+  <SetTopMarginSpacingHack space={space}>
+    <SetStackAlignment align={align}>
+      {flattenChildren(stackItems).map((stackItem, stackItemIndex) => (
+        <SetStackItemSpacing key={stackItemIndex} space={space}>
+          {stackItem}
+        </SetStackItemSpacing>
+      ))}
+    </SetStackAlignment>
+  </SetTopMarginSpacingHack>
+)
 
 export default Stack

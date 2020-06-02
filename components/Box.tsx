@@ -1,7 +1,37 @@
-import React from 'react'
-import MuiBox, { BoxProps as BoxPropsType } from '@material-ui/core/Box'
+export type BoxProps = BordersProps &
+  FlexboxProps &
+  DisplayProps &
+  SizingProps &
+  PaletteProps &
+  SpacingProps &
+  PositionsProps
 
-export type BoxProps = BoxPropsType
-const Box = (props: BoxProps) => <MuiBox {...props} />
+import {
+  borders,
+  BordersProps,
+  flexbox,
+  FlexboxProps,
+  display,
+  DisplayProps,
+  sizing,
+  SizingProps,
+  palette,
+  PaletteProps,
+  spacing,
+  SpacingProps,
+  positions,
+  PositionsProps,
+} from '@material-ui/system'
+import styled from 'styled-components'
+
+const Box = styled.div<BoxProps>`
+  ${borders}
+  ${flexbox}
+  ${display}
+  ${sizing}
+  ${palette}
+  ${positions}
+  ${spacing}
+`
 
 export default Box
