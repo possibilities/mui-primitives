@@ -76,7 +76,12 @@ const Doc = ({ doc, codeExamples }: { doc: Doc; codeExamples: Code[] }) => {
             <SyntaxHighlighter
               language='javascript'
               style={ghcolors}
-              customStyle={{ margin: 0, border: '1px solid #ddd' }}
+              customStyle={{
+                fontSize: '1.2em',
+                lineHeight: '1.8em',
+                margin: 0,
+                border: '1px solid #ddd',
+              }}
             >
               {codeExamples[index].code}
             </SyntaxHighlighter>
