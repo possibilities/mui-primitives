@@ -15,7 +15,7 @@ const docs = {
       description: 'No space',
       Container,
       Example: () => (
-        <Columns>
+        <Columns space={0}>
           <Column>
             <Placeholder height={60} />
           </Column>

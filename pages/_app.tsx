@@ -1,7 +1,11 @@
 import Router from 'next/router'
 import React, { ReactNode, useState, useEffect } from 'react'
 import Head from 'next/head'
-import { useTheme, ThemeProvider } from '@material-ui/core/styles'
+import {
+  useTheme,
+  ThemeProvider as MaterialUiThemeProvider,
+} from '@material-ui/core/styles'
+import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import theme from '../theme'
 import { AppProps } from 'next/app'
@@ -134,14 +138,16 @@ const App = (props: AppProps) => {
         />
         <title>MUI Primitives</title>
       </Head>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <NoSsr>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </NoSsr>
-      </ThemeProvider>
+      <MaterialUiThemeProvider theme={theme}>
+        <StyledComponentsThemeProvider theme={theme}>
+          <CssBaseline />
+          <NoSsr>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </NoSsr>
+        </StyledComponentsThemeProvider>
+      </MaterialUiThemeProvider>
     </>
   )
 }

@@ -1,5 +1,4 @@
 import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
-import { withTheme } from '@material-ui/core/styles'
 import styled from 'styled-components'
 import toResponsiveBreakpoint from '../modules/toResponsiveBreakpoint'
 
@@ -7,13 +6,11 @@ interface StylePropsWithSpace {
   space: ResponsiveProp<number>
 }
 
-const SetTopMarginSpacingHack = withTheme(styled.div<StylePropsWithSpace>`
+const SetTopMarginSpacingHack = styled.div<StylePropsWithSpace>`
   padding-top: 1px;
   ${({ space, theme }) =>
-    space &&
     toResponsiveProps(space).map(
       (space, index) =>
-        space &&
         `
           ${toResponsiveBreakpoint(theme, index)} {
             &:before {
@@ -24,6 +21,6 @@ const SetTopMarginSpacingHack = withTheme(styled.div<StylePropsWithSpace>`
           }
         `,
     )}
-`)
+`
 
 export default SetTopMarginSpacingHack

@@ -1,6 +1,6 @@
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 import React, { ReactNode } from 'react'
-import { Theme, withTheme } from '@material-ui/core/styles'
+import { Theme } from '@material-ui/core/styles'
 import styled from 'styled-components'
 import toResponsiveBreakpoint from '../modules/toResponsiveBreakpoint'
 
@@ -44,13 +44,13 @@ const hiddenStyles = ({
       `,
   )
 }
-const HiddenSpan = withTheme(styled.span<HiddenProps>`
+const HiddenSpan = styled.span<HiddenProps>`
   ${hiddenStyles}
-`)
+`
 
-const HiddenDiv = withTheme(styled.div<HiddenProps>`
+const HiddenDiv = styled.div<HiddenProps>`
   ${hiddenStyles}
-`)
+`
 
 const Hidden = ({ above, below, inline, children }: HiddenProps) => {
   const HiddenElement = inline ? HiddenSpan : HiddenDiv
