@@ -14,9 +14,9 @@
   "scripts": {
     "dev": "yarn generate-static-types && concurrently -n \"web,play\"  -c \"magenta,greenBright\" \"next dev --port 2222\" \"OPEN_TAB=false playroom start\"",
     "build": "rimraf typescript-out && tsc --jsx react && yarn generate-static-types",
-    "build-docs": "next build",
-    "export-docs": "next export -o docs-out",
-    "export-docs-and-serve": "yarn build-docs && yarn export-docs && serve docs-out --no-clipboard",
+    "build-app": "next build",
+    "export-app": "next export -o app-out",
+    "export-app-and-serve": "yarn build-app && yarn export-app && serve app-out --no-clipboard",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "playroom": "playroom start",
     "playroom:build": "playroom build",
