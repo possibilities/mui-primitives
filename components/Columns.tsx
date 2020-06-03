@@ -43,7 +43,12 @@ const SetColumnStyles = styled.div<Pick<ColumnsProps, 'space' | 'children'>>`
     const columnProps = extractColumnPropsFromChild(columnItem)
     if (columnProps?.width === 'content') return
     if (!columnProps?.width) return 'width: 100%;'
-    return `width: ${widthPropToDecimal[columnProps.width]};`
+    return `
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: ${widthPropToDecimal[columnProps.width]};
+      width: 100%;
+    `
   }}
   ${({ space, theme }) =>
     toResponsiveProps(space).map(
