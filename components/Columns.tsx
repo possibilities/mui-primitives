@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import { withTheme } from '@material-ui/core/styles'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
 import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import styled from 'styled-components'
@@ -29,7 +28,7 @@ const fill = <T extends {}>(defaultFillValue: T, lengthOfNewArray: number) =>
 export interface ColumnsProps {
   children: ReactNode
   reverse?: boolean
-  space?: ResponsiveProp<number>
+  space: ResponsiveProp<number>
   alignY?: ResponsiveProp<AlignYProp>
   collapseBelow?: Breakpoint
 }
@@ -39,7 +38,7 @@ const extractColumnPropsFromChild = (child: ReactNode) =>
     ? (child.props as ColumnProps)
     : undefined
 
-const SetColumnStyles = withTheme(styled.div<ColumnsProps>`
+const SetColumnStyles = styled.div<Pick<ColumnsProps, 'space' | 'children'>>`
   ${({ children: columnItem }) => {
     const columnProps = extractColumnPropsFromChild(columnItem)
     if (columnProps?.width === 'content') return
@@ -47,10 +46,8 @@ const SetColumnStyles = withTheme(styled.div<ColumnsProps>`
     return `width: ${widthPropToDecimal[columnProps.width]};`
   }}
   ${({ space, theme }) =>
-    space &&
     toResponsiveProps(space).map(
       (space, index) =>
-        space &&
         `
           ${toResponsiveBreakpoint(theme, index)} {
             padding-top: ${theme.spacing(space)}px;
@@ -58,9 +55,11 @@ const SetColumnStyles = withTheme(styled.div<ColumnsProps>`
           }
         `,
     )}
-`)
+`
 
-const SetColumnsStyles = withTheme(styled.div<ColumnsProps>`
+const SetColumnsStyles = styled.div<
+  Pick<ColumnsProps, 'reverse' | 'space' | 'alignY' | 'collapseBelow'>
+>`
   ${({ reverse }) =>
     reverse ? `flex-direction: row-reverse;` : `flex-direction: row;`}
   ${({ alignY, theme }) =>
@@ -75,7 +74,6 @@ const SetColumnsStyles = withTheme(styled.div<ColumnsProps>`
         `,
     )}
   ${({ space, theme }) =>
-    space &&
     toResponsiveProps(space).map(
       (space, index) =>
         `
@@ -103,7 +101,7 @@ const SetColumnsStyles = withTheme(styled.div<ColumnsProps>`
         `,
     )
   }}
-`)
+`
 
 const Columns = ({
   alignY,

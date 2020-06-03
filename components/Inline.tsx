@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import { Breakpoint } from '@material-ui/core/styles/createBreakpoints'
-import { withTheme } from '@material-ui/core/styles'
 import styled from 'styled-components'
 import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import flattenChildren from 'react-keyed-flatten-children'
@@ -23,7 +22,9 @@ export interface InlineProps {
   collapseBelow?: Breakpoint
 }
 
-const SetInlineStyles = withTheme(styled.div<InlineProps>`
+const SetInlineStyles = styled.div<
+  Pick<InlineProps, 'alignY' | 'space' | 'align' | 'collapseBelow'>
+>`
   flex-wrap: wrap;
   flex-direction: row;
   ${({ alignY, theme }) =>
@@ -49,7 +50,6 @@ const SetInlineStyles = withTheme(styled.div<InlineProps>`
         `,
     )}
   ${({ space, theme }) =>
-    space &&
     toResponsiveProps(space).map(
       (space, index) =>
         `
@@ -77,9 +77,9 @@ const SetInlineStyles = withTheme(styled.div<InlineProps>`
         `,
     )
   }}
-`)
+`
 
-const SetInlineItemStyles = withTheme(styled.div<InlineProps>`
+const SetInlineItemStyles = styled.div<Pick<InlineProps, 'align' | 'space'>>`
   min-width: 0%;
   display: flex;
   ${({ align, theme }) =>
@@ -94,10 +94,8 @@ const SetInlineItemStyles = withTheme(styled.div<InlineProps>`
         `,
     )}
   ${({ space, theme }) =>
-    space &&
     toResponsiveProps(space).map(
       (space, index) =>
-        space &&
         `
           ${toResponsiveBreakpoint(theme, index)} {
             padding-top: ${theme.spacing(space)}px;
@@ -105,7 +103,7 @@ const SetInlineItemStyles = withTheme(styled.div<InlineProps>`
           }
         `,
     )}
-`)
+`
 
 const Inline = ({
   space,

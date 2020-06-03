@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
-import { withTheme } from '@material-ui/core/styles'
 import getFlexboxAlignForAlignProp from '../modules/getFlexboxAlignForAlignProp'
 import flattenChildren from 'react-keyed-flatten-children'
 import Hidden, { HiddenProps } from './Hidden'
@@ -21,10 +20,9 @@ const extractHiddenPropsFromChild = (child: ReactNode) =>
     ? (child.props as HiddenProps)
     : null
 
-const SetStackItemSpacing = withTheme(styled.div<StackProps>`
+const SetStackItemSpacing = styled.div<Pick<StackProps, 'space'>>`
   height: 100%;
   ${({ space, theme }) =>
-    space &&
     toResponsiveProps(space).map(
       (space, index) =>
         `
@@ -58,9 +56,9 @@ const SetStackItemSpacing = withTheme(styled.div<StackProps>`
         `,
     )
   }}
-`)
+`
 
-const SetStackAlignment = withTheme(styled.div<Pick<StackProps, 'align'>>`
+const SetStackAlignment = styled.div<Pick<StackProps, 'align'>>`
   display: flex;
   flex-direction: column;
   ${({ align, theme }) =>
@@ -74,7 +72,7 @@ const SetStackAlignment = withTheme(styled.div<Pick<StackProps, 'align'>>`
           }
         `,
     )}
-`)
+`
 
 const Stack = ({ children: stackItems, space, align }: StackProps) => (
   <SetTopMarginSpacingHack space={space}>
