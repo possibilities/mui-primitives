@@ -15,6 +15,7 @@ module.exports = {
           loader: require.resolve('babel-loader'),
           options: {
             presets: [require.resolve('next/babel')],
+            plugins: ['babel-plugin-styled-components'],
           },
         },
       ],
