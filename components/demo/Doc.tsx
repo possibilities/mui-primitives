@@ -1,6 +1,7 @@
 import React, { Fragment, ReactNode } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
+import Head from 'next/head'
 import PlayIcon from '@material-ui/icons/PlayCircleOutline'
 import Button from '@material-ui/core/Button'
 import Stack from '../Stack'
@@ -62,8 +63,11 @@ export const preRenderCodeExamplesToAvoidMinifiedExamplesInProduction = async (
   },
 })
 
-const Doc = ({ doc, codeExamples }: { doc: Doc; codeExamples: Code[] }) => {
-  return (
+const Doc = ({ doc, codeExamples }: { doc: Doc; codeExamples: Code[] }) => (
+  <>
+    <Head>
+      <title>{doc.name} | MUI Primitives</title>
+    </Head>
     <Stack space={2}>
       <Typography variant='h2'>{doc.name}</Typography>
       {doc.examples.map(({ Example, Container, description }, index) => (
@@ -100,7 +104,7 @@ const Doc = ({ doc, codeExamples }: { doc: Doc; codeExamples: Code[] }) => {
         </Fragment>
       ))}
     </Stack>
-  )
-}
+  </>
+)
 
 export default Doc
