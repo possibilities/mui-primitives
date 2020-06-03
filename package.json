@@ -46,7 +46,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
-    "next": "^9.4.2",
+    "next": "^9.4.4",
     "playroom": "https://github.com/possibilities/playroom.git#static-types-config",
     "prettier": "^2.0.5",
     "react": "^16.13.1",
