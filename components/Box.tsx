@@ -34,4 +34,6 @@ const Box = styled.div<BoxProps>`
   ${spacing}
 `
 
+Box.displayName = 'Box'
+
 export default Box
