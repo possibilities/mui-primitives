@@ -1,6 +1,6 @@
 {
   "name": "mui-primitives",
-  "version": "0.0.12-0",
+  "version": "0.0.12",
   "license": "MIT",
   "engines": {
     "node": "12.x"
