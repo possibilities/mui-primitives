@@ -41,13 +41,24 @@ const extractColumnPropsFromChild = (child: ReactNode) =>
 const SetColumnStyles = styled.div<Pick<ColumnsProps, 'space' | 'children'>>`
   ${({ children: columnItem }) => {
     const columnProps = extractColumnPropsFromChild(columnItem)
-    if (columnProps?.width === 'content') return
-    if (!columnProps?.width) return 'width: 100%;'
+    if (!columnProps?.width) {
+      return `
+        width: 100%;
+        min-width: 0;
+      `
+    }
+    if (columnProps?.width === 'content') {
+      return `
+        width: auto;
+        min-width: 0;
+      `
+    }
     return `
       flex-grow: 0;
       flex-shrink: 0;
-      flex-basis: ${widthPropToDecimal[columnProps.width]};
-      width: 100%;
+      flex-basis: auto;
+      width: ${widthPropToDecimal[columnProps.width]};
+      min-width: 0;
     `
   }}
   ${({ space, theme }) =>
