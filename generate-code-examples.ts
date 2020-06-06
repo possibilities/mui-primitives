@@ -54,22 +54,22 @@ const preRenderCodeExample = (componentDocs: ComponentDocs) => {
   }
 }
 
-console.info(
-  JSON.stringify(
-    Object.fromEntries(
-      Object.keys(docs).map((docName: string) => {
-        const doc = docs[docName]
-        const examples = doc.examples.map((componentDocs: ComponentDocs) => {
-          const { code, playroomUrl } = preRenderCodeExample(componentDocs)
-          return {
-            code,
-            playroomUrl,
-          }
-        })
-        return [docName, { name: doc.name, examples }]
-      }),
-    ),
-    null,
-    2,
+const examplesJson = JSON.stringify(
+  Object.fromEntries(
+    Object.keys(docs).map((docName: string) => {
+      const doc = docs[docName]
+      const examples = doc.examples.map((componentDocs: ComponentDocs) => {
+        const { code, playroomUrl } = preRenderCodeExample(componentDocs)
+        return {
+          code,
+          playroomUrl,
+        }
+      })
+      return [docName, { name: doc.name, examples }]
+    }),
   ),
+  null,
+  2,
 )
+
+console.info(examplesJson)
