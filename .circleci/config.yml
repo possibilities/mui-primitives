@@ -12,9 +12,6 @@ jobs:
           command: yarn lint
           name: Lint code
       - run:
-          command: yarn tsc
-          name: Typecheck code
-      - run:
           command: yarn build
           name: Build package
       - run:
