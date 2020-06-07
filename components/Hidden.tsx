@@ -44,21 +44,20 @@ const hiddenStyles = ({
       `,
   )
 }
-const HiddenSpan = styled.span<HiddenProps>`
+
+const StyledHidden = styled.div<HiddenProps>`
   ${hiddenStyles}
 `
 
-const HiddenDiv = styled.div<HiddenProps>`
-  ${hiddenStyles}
-`
-
-const Hidden = ({ above, below, inline, children }: HiddenProps) => {
-  const HiddenElement = inline ? HiddenSpan : HiddenDiv
-  return (
-    <HiddenElement above={above} below={below} inline={inline}>
-      {children}
-    </HiddenElement>
-  )
-}
+const Hidden = ({ above, below, inline, children }: HiddenProps) => (
+  <StyledHidden
+    above={above}
+    below={below}
+    inline={inline}
+    as={inline ? 'span' : 'div'}
+  >
+    {children}
+  </StyledHidden>
+)
 
 export default Hidden
