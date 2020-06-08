@@ -1,6 +1,7 @@
 import React, { Fragment, ReactNode } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import Typography from '@material-ui/core/Typography'
+import Heading from '../../components/Heading'
+import Text from '../../components/Text'
 import Link from '@material-ui/core/Link'
 import Head from 'next/head'
 import PlayIcon from '@material-ui/icons/PlayCircleOutline'
@@ -93,7 +94,9 @@ const Docs = ({
         <title>{name}</title>
       </Head>
       <Stack space={2}>
-        <Typography variant='h2'>{name}</Typography>
+        <Heading level='2' component='h3'>
+          {name}
+        </Heading>
         {examples.map(
           (
             {
@@ -106,7 +109,7 @@ const Docs = ({
             index: number,
           ) => (
             <Fragment key={index}>
-              <Typography variant='body1'>{description}</Typography>
+              <Text>{description}</Text>
               <Container>
                 <Example />
               </Container>

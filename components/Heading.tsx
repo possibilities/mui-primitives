@@ -21,6 +21,7 @@ export interface HeadingProps {
   weight?: 'regular' | 'weak'
   align?: ResponsiveProp<'left' | 'right' | 'center'>
   truncate?: boolean
+  component?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
 
 const fontSizes = {
@@ -72,6 +73,7 @@ const textAlign = ({ align, theme }: HeadingProps & { theme: Theme }) =>
   )
 
 const StyledHeading = styled.div<HeadingProps>`
+  margin: 0;
   ${fontSize}
   ${lineHeight}
   ${fontWeight}
@@ -89,6 +91,7 @@ const Heading = ({
   weight,
   align,
   truncate,
+  component,
 }: HeadingProps) => (
   <StyledHeading
     id={id}
@@ -96,7 +99,7 @@ const Heading = ({
     weight={weight}
     align={align}
     truncate={truncate}
-    as={headingTagForLevel(level)}
+    as={component || headingTagForLevel(level)}
   >
     {children}
   </StyledHeading>
