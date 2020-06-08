@@ -30,6 +30,10 @@ export { default as Text } from './components/Text'
 import { TextProps as TextPropsType } from './components/Text'
 export type TextProps = TextPropsType
 
+export { default as Heading } from './components/Heading'
+import { HeadingProps as HeadingPropsType } from './components/Heading'
+export type HeadingProps = HeadingPropsType
+
 export { default as Placeholder } from './components/Placeholder'
 import { PlaceholderProps as PlaceholderPropsType } from './components/Placeholder'
 export type PlaceholderProps = PlaceholderPropsType

@@ -20,6 +20,7 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "playroom": "playroom start",
     "playroom:build": "playroom build",
+    "generate-static-types:watch": "nodemon --exec 'yarn generate-static-types' --watch components --ext 'tsx'",
     "generate-static-types": "./generate-static-types.sh > ./static-types.json",
     "generate-code-examples:watch": "nodemon --exec 'yarn generate-code-examples' --watch components --ext 'docs.tsx'",
     "generate-code-examples": "ts-node --project tsconfig.publish.json generate-code-examples.ts > code-examples.json"

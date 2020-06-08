@@ -478,6 +478,21 @@
       "xl"
     ]
   },
+  "Heading": {
+    "id": [],
+    "level": [],
+    "weight": [
+      "regular",
+      "weak"
+    ],
+    "align": [
+      "right",
+      "left",
+      "center",
+      "left"
+    ],
+    "truncate": []
+  },
   "Hidden": {
     "inline": [],
     "above": [
@@ -500,7 +515,8 @@
     "align": [
       "right",
       "left",
-      "center"
+      "center",
+      "left"
     ],
     "alignY": [
       "top",
@@ -905,14 +921,30 @@
     "align": [
       "right",
       "left",
-      "center"
+      "center",
+      "left"
     ]
   },
   "Text": {
+    "id": [],
     "size": [
       "small",
-      "standard"
-    ]
+      "xsmall",
+      "standard",
+      "large"
+    ],
+    "weight": [
+      "strong",
+      "regular",
+      "medium"
+    ],
+    "align": [
+      "right",
+      "left",
+      "center",
+      "left"
+    ],
+    "truncate": []
   },
   "Tiles": {
     "space": [],
