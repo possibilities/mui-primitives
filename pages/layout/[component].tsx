@@ -1,24 +1,25 @@
 import React, { Fragment, ReactNode } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import Heading from '../../components/Heading'
-import Text from '../../components/Text'
 import Link from '@material-ui/core/Link'
 import Head from 'next/head'
 import PlayIcon from '@material-ui/icons/PlayCircleOutline'
 import Button from '@material-ui/core/Button'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { ghcolors } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-
 import Box from '../../components/Box'
 import Stack from '../../components/Stack'
+import Heading from '../../components/Heading'
+import Text from '../../components/Text'
 
 import boxDocs from '../../components/Box.docs'
-import tilesDocs from '../../components/Tiles.docs'
 import columnDocs from '../../components/Column.docs'
 import columnsDocs from '../../components/Columns.docs'
 import hiddenDocs from '../../components/Hidden.docs'
 import inlineDocs from '../../components/Inline.docs'
 import stackDocs from '../../components/Stack.docs'
+import tilesDocs from '../../components/Tiles.docs'
+import headingDocs from '../../components/Heading.docs'
+import textDocs from '../../components/Text.docs'
 
 import codeExamples from '../../code-examples.json'
 
@@ -48,6 +49,8 @@ const docs = {
   inline: inlineDocs,
   stack: stackDocs,
   tiles: tilesDocs,
+  heading: headingDocs,
+  text: textDocs,
 }
 
 type DocumentedComponentName = keyof typeof docs
@@ -61,6 +64,8 @@ export const getStaticPaths = async () => {
     { params: { component: 'inline' } },
     { params: { component: 'stack' } },
     { params: { component: 'tiles' } },
+    { params: { component: 'heading' } },
+    { params: { component: 'text' } },
   ]
   return { paths, fallback: false }
 }
