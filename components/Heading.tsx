@@ -66,27 +66,27 @@ export interface HeadingProps {
   component?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
 
-const fontStyles = ({
-  level = '1',
-  theme,
-}: HeadingProps & { theme: Theme }) => {
-  const tablet = basekick({
+const fontStyles = ({ level, theme }: HeadingProps & { theme: Theme }) => {
+  const mobile = basekick({
     baseFontSize: 1,
-    typeSizeModifier: theme.treat.typography.heading.level[level].tablet.size,
-    typeRowSpan: theme.treat.typography.heading.level[level].tablet.rows,
+    typeSizeModifier: theme.treat.typography.heading.level[level].mobile.size,
+    typeRowSpan: theme.treat.typography.heading.level[level].mobile.rows,
     gridRowHeight: theme.treat.grid,
     descenderHeightScale: theme.treat.typography.descenderHeightScale,
     capHeight: theme.treat.typography.capHeightScale,
   })
+  console.log(mobile)
   return `
     font-family: ${theme.treat.typography.fontFamily};
-    font-size: ${tablet.fontSize}px;
-    line-height: ${tablet.lineHeight}px;
-    transform: translateY(${tablet.typeOffset}em);
-    padding-top: ${tablet.preventCollapse}px;
+    font-weight: 600;
+    font-size: ${mobile.fontSize}px;
+    letter-spacing: normal;
+    line-height: ${mobile.lineHeight}px;
+    transform: translateY(${mobile.typeOffset}em);
+    padding-top: ${mobile.preventCollapse}px;
     &::before {
       content: '';
-      margin-top: -${tablet.heightCorrection + tablet.preventCollapse}px;
+      margin-top: -${mobile.heightCorrection + mobile.preventCollapse}px;
       display: block;
       height: 0;
     }
@@ -124,16 +124,21 @@ const headingTagForLevel = (level: HeadingLevel): HeadingTag =>
 const Heading = ({
   id,
   children,
-  level,
+  level = '1',
   weight,
   align,
   truncate,
   component,
 }: HeadingProps) => (
-  <StyledHeading id={id} level={level} weight={weight} align={align} as='h2'>
+  <StyledHeading
+    id={id}
+    level={level}
+    weight={weight}
+    align={align}
+    as={component || headingTagForLevel(level)}
+  >
     {children}
   </StyledHeading>
 )
-// as={component || headingTagForLevel(level)}
 
 export default Heading

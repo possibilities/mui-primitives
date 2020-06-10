@@ -98,7 +98,7 @@ const Docs = ({
       <Head>
         <title>{name}</title>
       </Head>
-      <Stack space={2}>
+      <Stack space={4}>
         <Heading level='2' component='h3'>
           {name}
         </Heading>
@@ -115,6 +115,9 @@ const Docs = ({
           ) => (
             <Fragment key={index}>
               <Text>{description}</Text>
+              <Container>
+                <Example />
+              </Container>
             </Fragment>
           ),
         )}

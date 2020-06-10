@@ -33,10 +33,6 @@ class Document extends NextDocument {
             rel='stylesheet'
             href='https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800'
           />
-          <link
-            rel='stylesheet'
-            href='https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'
-          />
         </Head>
         <body>
           <Main />

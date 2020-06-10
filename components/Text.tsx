@@ -90,6 +90,7 @@ const fontStyles = ({
   return `
     font-family: ${theme.treat.typography.fontFamily};
     font-size: ${tablet.fontSize}px;
+    letter-spacing: normal;
     line-height: ${tablet.lineHeight}px;
     transform: translateY(${tablet.typeOffset}em);
     padding-top: ${tablet.preventCollapse}px;

@@ -7,6 +7,10 @@ import GridLines from '../components/GridLines'
 
 const Frame = ({ children }: { children: ReactNode }) => (
   <MaterialUiThemeProvider theme={theme}>
+    <link
+      rel='stylesheet'
+      href='https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800'
+    />
     <StyledComponentsThemeProvider theme={theme}>
       {false && <GridLines />}
       <CssBaseline />
