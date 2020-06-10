@@ -45,6 +45,7 @@ const usePrettierToFormatSnippet = (snippet: string) =>
       jsxSingleQuote: true,
     })
     .replace(/^;/, '')
+    .trim()
 
 const preRenderCodeExample = (componentDocs: ComponentDocs) => {
   const code = usePrettierToFormatSnippet(

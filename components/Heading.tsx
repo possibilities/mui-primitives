@@ -67,6 +67,7 @@ export interface HeadingProps {
 }
 
 const fontStyles = ({ level, theme }: HeadingProps & { theme: Theme }) => {
+  // TODO do tablet also
   const mobile = basekick({
     baseFontSize: 1,
     typeSizeModifier: theme.treat.typography.heading.level[level].mobile.size,
@@ -75,7 +76,6 @@ const fontStyles = ({ level, theme }: HeadingProps & { theme: Theme }) => {
     descenderHeightScale: theme.treat.typography.descenderHeightScale,
     capHeight: theme.treat.typography.capHeightScale,
   })
-  console.log(mobile)
   return `
     font-family: ${theme.treat.typography.fontFamily};
     font-weight: 600;

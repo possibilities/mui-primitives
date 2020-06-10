@@ -60,25 +60,11 @@ export interface TextProps {
   truncate?: boolean
 }
 
-const alignTextToGrid = (
-  textDefinition: TextDefinition,
-  gridRowHeight: number,
-  descenderHeightScale: number,
-  capHeight: number,
-) =>
-  basekick({
-    baseFontSize: 1,
-    typeSizeModifier: textDefinition.size,
-    typeRowSpan: textDefinition.rows,
-    gridRowHeight,
-    descenderHeightScale,
-    capHeight,
-  })
-
 const fontStyles = ({
   size = 'standard',
   theme,
 }: TextProps & { theme: Theme }) => {
+  // TODO do mobile also
   const tablet = basekick({
     baseFontSize: 1,
     typeSizeModifier: theme.treat.typography.text[size].tablet.size,

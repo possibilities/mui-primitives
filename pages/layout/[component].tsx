@@ -1,5 +1,6 @@
 import React, { Fragment, ReactNode } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import styled from 'styled-components'
 import Link from '@material-ui/core/Link'
 import Head from 'next/head'
 import PlayIcon from '@material-ui/icons/PlayCircleOutline'
@@ -10,6 +11,10 @@ import Box from '../../components/Box'
 import Stack from '../../components/Stack'
 import Heading from '../../components/Heading'
 import Text from '../../components/Text'
+import toResponsiveProps, {
+  ResponsiveProp,
+} from '../../modules/toResponsiveProps'
+import { Theme } from '@material-ui/core/styles'
 
 import boxDocs from '../../components/Box.docs'
 import columnDocs from '../../components/Column.docs'
@@ -22,6 +27,89 @@ import headingDocs from '../../components/Heading.docs'
 import textDocs from '../../components/Text.docs'
 
 import codeExamples from '../../code-examples.json'
+
+interface BaseKickOptions {
+  typeSizeModifier: number
+  baseFontSize: number
+  descenderHeightScale: number
+  capHeight: number
+  typeRowSpan: number
+  gridRowHeight: number
+}
+
+const basekick = ({
+  typeSizeModifier,
+  baseFontSize,
+  descenderHeightScale,
+  typeRowSpan,
+  gridRowHeight,
+  capHeight,
+}: BaseKickOptions) => {
+  const fontSize = typeSizeModifier * baseFontSize
+
+  const calculateTypeOffset = (lh: number) => {
+    const lineHeightScale = lh / fontSize
+    return (lineHeightScale - 1) / 2 + descenderHeightScale
+  }
+
+  const lineHeight = typeRowSpan * gridRowHeight
+  const typeOffset = calculateTypeOffset(lineHeight)
+
+  const topSpace = lineHeight - capHeight * fontSize
+  const heightCorrection =
+    topSpace > gridRowHeight ? topSpace - (topSpace % gridRowHeight) : 0
+
+  const preventCollapse = 1
+
+  return {
+    fontSize,
+    lineHeight,
+    typeOffset,
+    preventCollapse,
+    heightCorrection,
+  }
+}
+
+interface TextDefinition {
+  rows: number
+  size: number
+}
+
+export interface TextProps {
+  id?: string
+  children: ReactNode
+  size?: 'xsmall' | 'small' | 'standard' | 'large'
+  weight?: 'regular' | 'medium' | 'strong'
+  align?: ResponsiveProp<'left' | 'right' | 'center'>
+  truncate?: boolean
+}
+
+const fontStyles = ({ theme }: { theme: Theme }) => {
+  const size = 'standard'
+  // TODO do mobile also
+  const tablet = basekick({
+    baseFontSize: 1,
+    typeSizeModifier: theme.treat.typography.text[size].tablet.size,
+    typeRowSpan: theme.treat.typography.text[size].tablet.rows,
+    gridRowHeight: theme.treat.grid,
+    descenderHeightScale: theme.treat.typography.descenderHeightScale,
+    capHeight: theme.treat.typography.capHeightScale,
+  })
+  return `
+    font-family: ${theme.treat.typography.fontFamily};
+    font-size: ${tablet.fontSize}px;
+    letter-spacing: normal;
+    line-height: ${tablet.lineHeight}px;
+    transform: translateY(${tablet.typeOffset}em);
+    padding-top: ${tablet.preventCollapse}px;
+    &::before {
+      content: "";
+      margin-top: -${tablet.heightCorrection + tablet.preventCollapse}px;
+      display: block;
+      height: 0;
+    }
+  `
+}
 
 interface CodeExample {
   code: string
@@ -89,6 +177,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => ({
   },
 })
 
+const StyledCodeWrapper = styled.div<TextProps>`
+  .codeLine {
+    ${fontStyles}
+  }
+`
+
 const Docs = ({
   component: componentName,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -114,10 +208,35 @@ const Docs = ({
             index: number,
           ) => (
             <Fragment key={index}>
-              <Text>{description}</Text>
-              <Container>
-                <Example />
-              </Container>
+              <Stack space={2}>
+                <Text>{description}</Text>
+                <Container>
+                  <Example />
+                </Container>
+                <Container>
+                  <Example />
+                </Container>
+                <StyledCodeWrapper>
+                  <SyntaxHighlighter
+                    lineProps={{ className: 'codeLine' }}
+                    wrapLines
+                    language='tsx'
+                    style={ghcolors}
+                    customStyle={{
+                      overflow: 'visible',
+                      background: '#ddd',
+                      padding: 0,
+                      margin: 'initial',
+                      border: 0,
+                    }}
+                  >
+                    {code}
+                  </SyntaxHighlighter>
+                </StyledCodeWrapper>
+                <Container>
+                  <Example />
+                </Container>
+              </Stack>
             </Fragment>
           ),
         )}

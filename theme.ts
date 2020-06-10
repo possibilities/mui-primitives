@@ -32,7 +32,6 @@ declare module '@material-ui/core/styles/createMuiTheme' {
 const gridHeightPx = 4
 
 const theme = createMuiTheme({
-  spacing: gridHeightPx,
   treat: {
     grid: gridHeightPx,
     typography: {
