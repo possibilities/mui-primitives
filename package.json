@@ -23,7 +23,7 @@
     "generate-static-types:watch": "nodemon --exec 'yarn generate-static-types' --watch components --ext 'tsx'",
     "generate-static-types": "./generate-static-types.sh > ./static-types.json",
     "generate-code-examples:watch": "nodemon --exec 'yarn generate-code-examples' --watch components --ext 'docs.tsx'",
-    "generate-code-examples": "ts-node --project tsconfig.publish.json generate-code-examples.ts > code-examples.json"
+    "generate-code-examples": "ts-node --project tsconfig.publish.json --files generate-code-examples.ts > code-examples.json"
   },
   "dependencies": {
     "react-keyed-flatten-children": "^1.2.0",

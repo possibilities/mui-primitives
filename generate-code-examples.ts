@@ -3,7 +3,6 @@ import reactElementToJsxString from 'react-element-to-jsx-string'
 import prettier from 'prettier/standalone'
 import typescriptParser from 'prettier/parser-typescript'
 import { createUrl } from 'playroom'
-
 import boxDocs from './components/Box.docs'
 import columnDocs from './components/Column.docs'
 import columnsDocs from './components/Columns.docs'
@@ -43,6 +42,7 @@ const usePrettierToFormatSnippet = (snippet: string) =>
       parser: 'typescript',
       plugins: [typescriptParser],
       semi: false,
+      jsxSingleQuote: true,
     })
     .replace(/^;/, '')
 

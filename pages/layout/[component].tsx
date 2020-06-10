@@ -115,34 +115,6 @@ const Docs = ({
           ) => (
             <Fragment key={index}>
               <Text>{description}</Text>
-              <Container>
-                <Example />
-              </Container>
-              <Stack space={1}>
-                <SyntaxHighlighter
-                  language='javascript'
-                  style={ghcolors}
-                  customStyle={{
-                    fontSize: '1.2em',
-                    lineHeight: '1.8em',
-                    margin: 0,
-                    border: '1px solid #ddd',
-                  }}
-                >
-                  {code}
-                </SyntaxHighlighter>
-                <Box display='flex' justifyContent='flex-end'>
-                  <Button
-                    size='small'
-                    component={Link}
-                    target='_blank'
-                    startIcon={<PlayIcon />}
-                    href={baseUrl + playroomUrl}
-                  >
-                    Run
-                  </Button>
-                </Box>
-              </Stack>
             </Fragment>
           ),
         )}

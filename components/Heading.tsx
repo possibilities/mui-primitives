@@ -7,6 +7,48 @@ import { Theme } from '@material-ui/core/styles'
 type HeadingLevel = '1' | '2' | '3' | '4'
 type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4'
 
+interface BaseKickOptions {
+  typeSizeModifier: number
+  baseFontSize: number
+  descenderHeightScale: number
+  capHeight: number
+  typeRowSpan: number
+  gridRowHeight: number
+}
+
+const basekick = ({
+  typeSizeModifier,
+  baseFontSize,
+  descenderHeightScale,
+  typeRowSpan,
+  gridRowHeight,
+  capHeight,
+}: BaseKickOptions) => {
+  const fontSize = typeSizeModifier * baseFontSize
+
+  const calculateTypeOffset = (lh: number) => {
+    const lineHeightScale = lh / fontSize
+    return (lineHeightScale - 1) / 2 + descenderHeightScale
+  }
+
+  const lineHeight = typeRowSpan * gridRowHeight
+  const typeOffset = calculateTypeOffset(lineHeight)
+
+  const topSpace = lineHeight - capHeight * fontSize
+  const heightCorrection =
+    topSpace > gridRowHeight ? topSpace - (topSpace % gridRowHeight) : 0
+
+  const preventCollapse = 1
+
+  return {
+    fontSize,
+    lineHeight,
+    typeOffset,
+    preventCollapse,
+    heightCorrection,
+  }
+}
+
 const levelToHeadingTag: Record<string, HeadingTag> = {
   '1': 'h1',
   '2': 'h2',
@@ -24,41 +66,32 @@ export interface HeadingProps {
   component?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
 
-const fontSizes = {
-  '1': 28,
-  '2': 21,
-  '3': 21,
-  '4': 18,
-}
-
-const lineHeights = {
-  '1': 36,
-  '2': 32,
-  '3': 28,
-  '4': 28,
-}
-
-const fontWeights = {
-  regular: 500,
-  weak: 400,
-}
-
-const fontSize = ({ level }: HeadingProps) =>
-  `font-size: ${fontSizes[level]}px;`
-
-const lineHeight = ({ level }: HeadingProps) =>
-  `line-height: ${lineHeights[level]}px;`
-
-const fontWeight = ({ weight = 'regular' }: HeadingProps) =>
-  `font-weight: ${fontWeights[weight]};`
-
-const truncateWithEllipses = ({ truncate }: HeadingProps) =>
-  truncate &&
+const fontStyles = ({
+  level = '1',
+  theme,
+}: HeadingProps & { theme: Theme }) => {
+  const tablet = basekick({
+    baseFontSize: 1,
+    typeSizeModifier: theme.treat.typography.heading.level[level].tablet.size,
+    typeRowSpan: theme.treat.typography.heading.level[level].tablet.rows,
+    gridRowHeight: theme.treat.grid,
+    descenderHeightScale: theme.treat.typography.descenderHeightScale,
+    capHeight: theme.treat.typography.capHeightScale,
+  })
+  return `
+    font-family: ${theme.treat.typography.fontFamily};
+    font-size: ${tablet.fontSize}px;
+    line-height: ${tablet.lineHeight}px;
+    transform: translateY(${tablet.typeOffset}em);
+    padding-top: ${tablet.preventCollapse}px;
+    &::before {
+      content: '';
+      margin-top: -${tablet.heightCorrection + tablet.preventCollapse}px;
+      display: block;
+      height: 0;
+    }
   `
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  `
+}
 
 const textAlign = ({ align, theme }: HeadingProps & { theme: Theme }) =>
   align &&
@@ -74,11 +107,15 @@ const textAlign = ({ align, theme }: HeadingProps & { theme: Theme }) =>
 
 const StyledHeading = styled.div<HeadingProps>`
   margin: 0;
-  ${fontSize}
-  ${lineHeight}
-  ${fontWeight}
+  ${fontStyles}
   ${textAlign}
-  ${truncateWithEllipses}
+`
+
+const TruncatedHeading = styled.span`
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const headingTagForLevel = (level: HeadingLevel): HeadingTag =>
@@ -93,16 +130,10 @@ const Heading = ({
   truncate,
   component,
 }: HeadingProps) => (
-  <StyledHeading
-    id={id}
-    level={level}
-    weight={weight}
-    align={align}
-    truncate={truncate}
-    as={component || headingTagForLevel(level)}
-  >
+  <StyledHeading id={id} level={level} weight={weight} align={align} as='h2'>
     {children}
   </StyledHeading>
 )
+// as={component || headingTagForLevel(level)}
 
 export default Heading

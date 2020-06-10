@@ -11,6 +11,7 @@ import theme from '../theme'
 import { AppProps } from 'next/app'
 import { makeStyles } from '@material-ui/core/styles'
 import Box from '../components/Box'
+import GridLines from '../components/GridLines'
 import NakedLink from 'next/link'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
@@ -61,6 +62,7 @@ const Layout = ({ children }: LayoutProps) => {
   const headerHeightPx = `${theme.spacing(6) + logoWidthAndHeight}px`
   return (
     <>
+      {true && <GridLines />}
       <Box position='fixed' top={0} left={0} right={0}>
         <Box
           display='flex'
@@ -99,9 +101,7 @@ const Layout = ({ children }: LayoutProps) => {
           width={menuWidth}
           padding={4}
           className={classes.navigation}
-        >
-          <Navigation />
-        </Box>
+        ></Box>
         <Box
           padding={4}
           marginTop={headerHeightPx}
