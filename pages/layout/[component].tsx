@@ -1,21 +1,10 @@
 import React, { Fragment, ReactNode } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import styled from 'styled-components'
-import Link from '@material-ui/core/Link'
 import Head from 'next/head'
-import PlayIcon from '@material-ui/icons/PlayCircleOutline'
-import Button from '@material-ui/core/Button'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { ghcolors } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import Box from '../../components/Box'
 import Stack from '../../components/Stack'
 import Heading from '../../components/Heading'
 import Text from '../../components/Text'
-import toResponsiveProps, {
-  ResponsiveProp,
-} from '../../modules/toResponsiveProps'
-import { Theme } from '@material-ui/core/styles'
-
+import { ResponsiveProp } from '../../modules/toResponsiveProps'
 import boxDocs from '../../components/Box.docs'
 import columnDocs from '../../components/Column.docs'
 import columnsDocs from '../../components/Columns.docs'
@@ -28,53 +17,6 @@ import textDocs from '../../components/Text.docs'
 
 import codeExamples from '../../code-examples.json'
 
-interface BaseKickOptions {
-  typeSizeModifier: number
-  baseFontSize: number
-  descenderHeightScale: number
-  capHeight: number
-  typeRowSpan: number
-  gridRowHeight: number
-}
-
-const basekick = ({
-  typeSizeModifier,
-  baseFontSize,
-  descenderHeightScale,
-  typeRowSpan,
-  gridRowHeight,
-  capHeight,
-}: BaseKickOptions) => {
-  const fontSize = typeSizeModifier * baseFontSize
-
-  const calculateTypeOffset = (lh: number) => {
-    const lineHeightScale = lh / fontSize
-    return (lineHeightScale - 1) / 2 + descenderHeightScale
-  }
-
-  const lineHeight = typeRowSpan * gridRowHeight
-  const typeOffset = calculateTypeOffset(lineHeight)
-
-  const topSpace = lineHeight - capHeight * fontSize
-  const heightCorrection =
-    topSpace > gridRowHeight ? topSpace - (topSpace % gridRowHeight) : 0
-
-  const preventCollapse = 1
-
-  return {
-    fontSize,
-    lineHeight,
-    typeOffset,
-    preventCollapse,
-    heightCorrection,
-  }
-}
-
-interface TextDefinition {
-  rows: number
-  size: number
-}
-
 export interface TextProps {
   id?: string
   children: ReactNode
@@ -82,33 +24,6 @@ export interface TextProps {
   weight?: 'regular' | 'medium' | 'strong'
   align?: ResponsiveProp<'left' | 'right' | 'center'>
   truncate?: boolean
-}
-
-const fontStyles = ({ theme }: { theme: Theme }) => {
-  const size = 'standard'
-  // TODO do mobile also
-  const tablet = basekick({
-    baseFontSize: 1,
-    typeSizeModifier: theme.treat.typography.text[size].tablet.size,
-    typeRowSpan: theme.treat.typography.text[size].tablet.rows,
-    gridRowHeight: theme.treat.grid,
-    descenderHeightScale: theme.treat.typography.descenderHeightScale,
-    capHeight: theme.treat.typography.capHeightScale,
-  })
-  return `
-    font-family: ${theme.treat.typography.fontFamily};
-    font-size: ${tablet.fontSize}px;
-    letter-spacing: normal;
-    line-height: ${tablet.lineHeight}px;
-    transform: translateY(${tablet.typeOffset}em);
-    padding-top: ${tablet.preventCollapse}px;
-    &::before {
-      content: "";
-      margin-top: -${tablet.heightCorrection + tablet.preventCollapse}px;
-      display: block;
-      height: 0;
-    }
-  `
 }
 
 interface CodeExample {
@@ -123,11 +38,6 @@ interface ComponentDocs {
 }
 
 type ExampleWithCode = ComponentDocs & CodeExample
-
-const baseUrl =
-  process.env.NODE_ENV === 'development'
-    ? `http://localhost:2223/`
-    : `https://mui-primitives.hackart.live/playroom`
 
 const docs = {
   box: boxDocs,
@@ -177,20 +87,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => ({
   },
 })
 
-const StyledCodeWrapper = styled.div<TextProps>`
-  .codeLine {
-    ${fontStyles}
-  }
-  code {
-    margin: 0;
-    padding: 0;
-  }
-  pre {
-    margin: 0;
-    padding: 0;
-  }
-`
-
 const Docs = ({
   component: componentName,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -206,13 +102,7 @@ const Docs = ({
         </Heading>
         {examples.map(
           (
-            {
-              Example,
-              Container,
-              description,
-              code,
-              playroomUrl,
-            }: ExampleWithCode,
+            { Example, Container, description, code }: ExampleWithCode,
             index: number,
           ) => (
             <Fragment key={index}>
@@ -224,22 +114,7 @@ const Docs = ({
                 <Container>
                   <Example />
                 </Container>
-                <StyledCodeWrapper>
-                  <SyntaxHighlighter
-                    PreTag={({ children }: { children: ReactNode }) => (
-                      <pre>{children}</pre>
-                    )}
-                    CodeTag={({ children }: { children: ReactNode }) => (
-                      <code>{children}</code>
-                    )}
-                    lineProps={{ className: 'codeLine' }}
-                    wrapLines
-                    language='tsx'
-                    style={ghcolors}
-                  >
-                    {code}
-                  </SyntaxHighlighter>
-                </StyledCodeWrapper>
+                <code>{code}</code>
                 <Container>
                   <Example />
                 </Container>

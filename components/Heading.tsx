@@ -67,7 +67,6 @@ export interface HeadingProps {
 }
 
 const fontStyles = ({ level, theme }: HeadingProps & { theme: Theme }) => {
-  // TODO do tablet also
   const mobile = basekick({
     baseFontSize: 1,
     typeSizeModifier: theme.treat.typography.heading.level[level].mobile.size,
@@ -123,12 +122,12 @@ const headingTagForLevel = (level: HeadingLevel): HeadingTag =>
 
 const Heading = ({
   id,
-  children,
-  level = '1',
-  weight,
   align,
+  weight,
   truncate,
+  children,
   component,
+  level = '1',
 }: HeadingProps) => (
   <StyledHeading
     id={id}
@@ -137,7 +136,7 @@ const Heading = ({
     align={align}
     as={component || headingTagForLevel(level)}
   >
-    {children}
+    {truncate ? <TruncatedHeading>{children}</TruncatedHeading> : children}
   </StyledHeading>
 )
 

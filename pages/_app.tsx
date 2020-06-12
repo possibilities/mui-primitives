@@ -15,7 +15,6 @@ import GridLines from '../components/GridLines'
 import NakedLink from 'next/link'
 import MenuIcon from '@material-ui/icons/Menu'
 import CloseIcon from '@material-ui/icons/Close'
-import Navigation from '../components/demo/Navigation'
 
 const menuWidth = 130
 const containerMaxWidth = 1280

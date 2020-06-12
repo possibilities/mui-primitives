@@ -46,11 +46,6 @@ const basekick = ({
   }
 }
 
-interface TextDefinition {
-  rows: number
-  size: number
-}
-
 export interface TextProps {
   id?: string
   children: ReactNode
@@ -64,7 +59,6 @@ const fontStyles = ({
   size = 'standard',
   theme,
 }: TextProps & { theme: Theme }) => {
-  // TODO do mobile also
   const tablet = basekick({
     baseFontSize: 1,
     typeSizeModifier: theme.treat.typography.text[size].tablet.size,
@@ -114,15 +108,10 @@ const TruncatedText = styled.span`
   text-overflow: ellipsis;
 `
 
-const Text = ({ id, children, size, weight, align, truncate }: TextProps) =>
-  truncate ? (
-    <StyledText id={id} size={size} weight={weight} align={align}>
-      <TruncatedText>{children}</TruncatedText>
-    </StyledText>
-  ) : (
-    <StyledText id={id} size={size} weight={weight} align={align}>
-      {children}
-    </StyledText>
-  )
+const Text = ({ id, children, size, weight, align, truncate }: TextProps) => (
+  <StyledText id={id} size={size} weight={weight} align={align}>
+    {truncate ? <TruncatedText>{children}</TruncatedText> : children}
+  </StyledText>
+)
 
 export default Text
