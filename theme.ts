@@ -36,11 +36,9 @@ const theme = createMuiTheme({
     grid: gridHeightPx,
     typography: {
       fontFamily: "'Nunito Sans', sans-serif",
-      // TODO Use in _document
       webFont: 'Nunito Sans',
       descenderHeightScale: 0.19,
       capHeightScale: 0.66,
-      // TODO Use in _document
       fontWeight: {
         regular: 400,
         medium: 600,

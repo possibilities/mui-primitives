@@ -62,7 +62,7 @@ const Layout = ({ children }: LayoutProps) => {
   const headerHeightPx = `${theme.spacing(6) + logoWidthAndHeight}px`
   return (
     <>
-      {false && <GridLines />}
+      {true && <GridLines />}
       <Box position='fixed' top={0} left={0} right={0}>
         <Box
           display='flex'

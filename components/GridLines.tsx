@@ -12,7 +12,7 @@ const GridLines = () => {
       {fill(1, 500).map((_, n) => (
         <Box
           key={n}
-          style={{ pointerEvents: 'none', opacity: n % 2 === 0 ? 0 : 0.4 }}
+          style={{ pointerEvents: 'none', opacity: n % 2 === 0 ? 0 : 0.3 }}
           bgcolor='#000'
           zIndex={1}
           position='fixed'

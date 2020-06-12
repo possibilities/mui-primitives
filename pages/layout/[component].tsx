@@ -181,6 +181,14 @@ const StyledCodeWrapper = styled.div<TextProps>`
   .codeLine {
     ${fontStyles}
   }
+  code {
+    margin: 0;
+    padding: 0;
+  }
+  pre {
+    margin: 0;
+    padding: 0;
+  }
 `
 
 const Docs = ({
@@ -218,17 +226,16 @@ const Docs = ({
                 </Container>
                 <StyledCodeWrapper>
                   <SyntaxHighlighter
+                    PreTag={({ children }: { children: ReactNode }) => (
+                      <pre>{children}</pre>
+                    )}
+                    CodeTag={({ children }: { children: ReactNode }) => (
+                      <code>{children}</code>
+                    )}
                     lineProps={{ className: 'codeLine' }}
                     wrapLines
                     language='tsx'
                     style={ghcolors}
-                    customStyle={{
-                      overflow: 'visible',
-                      background: '#ddd',
-                      padding: 0,
-                      margin: 'initial',
-                      border: 0,
-                    }}
                   >
                     {code}
                   </SyntaxHighlighter>
