@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core/styles'
 import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import theme from '../theme'
+import theme from '../modules/theme'
 import { AppProps } from 'next/app'
 import { makeStyles } from '@material-ui/core/styles'
 import Box from '../components/Box'

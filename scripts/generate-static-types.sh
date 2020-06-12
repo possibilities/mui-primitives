@@ -3,7 +3,7 @@
 const getStaticTypes = require('playroom/lib/getStaticTypes')
 const generateStaticTypes = async () =>
   console.info(JSON.stringify(await getStaticTypes({
-    typeScriptFiles: ['./components/*.tsx'],
+    typeScriptFiles: ['../components/*.tsx'],
     filterProps: ['className', 'children', 'css'],
   }), null, 2))
 generateStaticTypes()
