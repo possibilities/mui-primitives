@@ -96,7 +96,7 @@ const Docs = ({
       <Head>
         <title>{name}</title>
       </Head>
-      <Stack space={4}>
+      <Stack space={2}>
         <Heading level='2' component='h3'>
           {name}
         </Heading>
@@ -114,7 +114,6 @@ const Docs = ({
                 <Container>
                   <Example />
                 </Container>
-                <code>{code}</code>
                 <Container>
                   <Example />
                 </Container>
