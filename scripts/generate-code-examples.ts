@@ -3,14 +3,15 @@ import reactElementToJsxString from 'react-element-to-jsx-string'
 import prettier from 'prettier/standalone'
 import typescriptParser from 'prettier/parser-typescript'
 import { createUrl } from 'playroom'
-
-import boxDocs from './components/Box.docs'
-import tilesDocs from './components/Tiles.docs'
-import columnDocs from './components/Column.docs'
-import columnsDocs from './components/Columns.docs'
-import hiddenDocs from './components/Hidden.docs'
-import inlineDocs from './components/Inline.docs'
-import stackDocs from './components/Stack.docs'
+import boxDocs from '../components/Box.docs'
+import columnDocs from '../components/Column.docs'
+import columnsDocs from '../components/Columns.docs'
+import hiddenDocs from '../components/Hidden.docs'
+import inlineDocs from '../components/Inline.docs'
+import stackDocs from '../components/Stack.docs'
+import tilesDocs from '../components/Tiles.docs'
+import headingDocs from '../components/Heading.docs'
+import textDocs from '../components/Text.docs'
 
 export interface ComponentDocs {
   description: string
@@ -25,12 +26,14 @@ export interface Doc {
 
 const docs: Record<string, Doc> = {
   box: boxDocs,
-  tiles: tilesDocs,
   column: columnDocs,
   columns: columnsDocs,
   hidden: hiddenDocs,
   inline: inlineDocs,
   stack: stackDocs,
+  tiles: tilesDocs,
+  heading: headingDocs,
+  text: textDocs,
 }
 
 const usePrettierToFormatSnippet = (snippet: string) =>
@@ -39,8 +42,10 @@ const usePrettierToFormatSnippet = (snippet: string) =>
       parser: 'typescript',
       plugins: [typescriptParser],
       semi: false,
+      jsxSingleQuote: true,
     })
     .replace(/^;/, '')
+    .trim()
 
 const preRenderCodeExample = (componentDocs: ComponentDocs) => {
   const code = usePrettierToFormatSnippet(

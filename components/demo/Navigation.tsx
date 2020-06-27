@@ -2,9 +2,13 @@ import React from 'react'
 
 import Link from './Link'
 import Stack from '../Stack'
+import Text from '../Text'
 
 const Navigation = () => (
   <Stack space={2}>
+    <Text size='small' weight='strong'>
+      Layout
+    </Text>
     <Link href='/layout/[component]' as='/layout/box'>
       Box
     </Link>
@@ -25,6 +29,15 @@ const Navigation = () => (
     </Link>
     <Link href='/layout/[component]' as='/layout/tiles'>
       Tiles
+    </Link>
+    <Text size='small' weight='strong'>
+      Typography
+    </Text>
+    <Link href='/layout/[component]' as='/layout/heading'>
+      Heading
+    </Link>
+    <Link href='/layout/[component]' as='/layout/text'>
+      Text
     </Link>
   </Stack>
 )

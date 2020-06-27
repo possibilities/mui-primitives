@@ -1,25 +1,30 @@
 import React, { Fragment, ReactNode } from 'react'
 import { GetStaticProps, InferGetStaticPropsType } from 'next'
-import Typography from '@material-ui/core/Typography'
-import Link from '@material-ui/core/Link'
 import Head from 'next/head'
-import PlayIcon from '@material-ui/icons/PlayCircleOutline'
-import Button from '@material-ui/core/Button'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { ghcolors } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-
-import Box from '../../components/Box'
 import Stack from '../../components/Stack'
-
+import Heading from '../../components/Heading'
+import Text from '../../components/Text'
+import { ResponsiveProp } from '../../modules/toResponsiveProps'
 import boxDocs from '../../components/Box.docs'
-import tilesDocs from '../../components/Tiles.docs'
 import columnDocs from '../../components/Column.docs'
 import columnsDocs from '../../components/Columns.docs'
 import hiddenDocs from '../../components/Hidden.docs'
 import inlineDocs from '../../components/Inline.docs'
 import stackDocs from '../../components/Stack.docs'
+import tilesDocs from '../../components/Tiles.docs'
+import headingDocs from '../../components/Heading.docs'
+import textDocs from '../../components/Text.docs'
 
 import codeExamples from '../../code-examples.json'
+
+export interface TextProps {
+  id?: string
+  children: ReactNode
+  size?: 'xsmall' | 'small' | 'standard' | 'large'
+  weight?: 'regular' | 'medium' | 'strong'
+  align?: ResponsiveProp<'left' | 'right' | 'center'>
+  truncate?: boolean
+}
 
 interface CodeExample {
   code: string
@@ -34,11 +39,6 @@ interface ComponentDocs {
 
 type ExampleWithCode = ComponentDocs & CodeExample
 
-const baseUrl =
-  process.env.NODE_ENV === 'development'
-    ? `http://localhost:2223/`
-    : `https://mui-primitives.hackart.live/playroom`
-
 const docs = {
   box: boxDocs,
   column: columnDocs,
@@ -47,6 +47,8 @@ const docs = {
   inline: inlineDocs,
   stack: stackDocs,
   tiles: tilesDocs,
+  heading: headingDocs,
+  text: textDocs,
 }
 
 type DocumentedComponentName = keyof typeof docs
@@ -60,6 +62,8 @@ export const getStaticPaths = async () => {
     { params: { component: 'inline' } },
     { params: { component: 'stack' } },
     { params: { component: 'tiles' } },
+    { params: { component: 'heading' } },
+    { params: { component: 'text' } },
   ]
   return { paths, fallback: false }
 }
@@ -93,47 +97,26 @@ const Docs = ({
         <title>{name}</title>
       </Head>
       <Stack space={2}>
-        <Typography variant='h2'>{name}</Typography>
+        <Heading level='2' component='h3'>
+          {name}
+        </Heading>
         {examples.map(
           (
-            {
-              Example,
-              Container,
-              description,
-              code,
-              playroomUrl,
-            }: ExampleWithCode,
+            { Example, Container, description, code }: ExampleWithCode,
             index: number,
           ) => (
             <Fragment key={index}>
-              <Typography variant='body1'>{description}</Typography>
-              <Container>
-                <Example />
-              </Container>
-              <Stack space={1}>
-                <SyntaxHighlighter
-                  language='javascript'
-                  style={ghcolors}
-                  customStyle={{
-                    fontSize: '1.2em',
-                    lineHeight: '1.8em',
-                    margin: 0,
-                    border: '1px solid #ddd',
-                  }}
-                >
-                  {code}
-                </SyntaxHighlighter>
-                <Box display='flex' justifyContent='flex-end'>
-                  <Button
-                    size='small'
-                    component={Link}
-                    target='_blank'
-                    startIcon={<PlayIcon />}
-                    href={baseUrl + playroomUrl}
-                  >
-                    Run
-                  </Button>
-                </Box>
+              <Stack space={2}>
+                <Text>{description}</Text>
+                <Container>
+                  <Example />
+                </Container>
+                <Container>
+                  <Example />
+                </Container>
+                <Container>
+                  <Example />
+                </Container>
               </Stack>
             </Fragment>
           ),

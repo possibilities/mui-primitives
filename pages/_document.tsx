@@ -2,7 +2,7 @@ import React from 'react'
 import NextDocument, { Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet as StyledComponentSheets } from 'styled-components'
 import { ServerStyleSheets as MaterialUiServerStyleSheets } from '@material-ui/core/styles'
-import theme from '../theme'
+import theme from '../modules/theme'
 
 class Document extends NextDocument {
   render() {
@@ -31,7 +31,7 @@ class Document extends NextDocument {
           <link rel='manifest' href='/site.webmanifest' />
           <link
             rel='stylesheet'
-            href='https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'
+            href='https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800'
           />
         </Head>
         <body>

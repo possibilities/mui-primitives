@@ -21,9 +21,9 @@
     "playroom": "playroom start",
     "playroom:build": "playroom build",
     "generate-static-types:watch": "nodemon --exec 'yarn generate-static-types' --watch components --ext 'tsx'",
-    "generate-static-types": "./generate-static-types.sh > ./static-types.json",
+    "generate-static-types": "./scripts/generate-static-types.sh > ./static-types.json",
     "generate-code-examples:watch": "nodemon --exec 'yarn generate-code-examples' --watch components --ext 'docs.tsx'",
-    "generate-code-examples": "ts-node --project tsconfig.publish.json generate-code-examples.ts > code-examples.json"
+    "generate-code-examples": "ts-node --project tsconfig.publish.json --files scripts/generate-code-examples.ts > code-examples.json"
   },
   "dependencies": {
     "react-keyed-flatten-children": "^1.2.0",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@material-ui/core": "^4.10.0",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/system": "^4.9.14",
     "@types/node": "^14.0.1",
     "@types/react-syntax-highlighter": "^11.0.4",
     "@types/styled-components": "^5.1.0",
@@ -56,7 +57,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-element-to-jsx-string": "^14.3.1",
-    "react-syntax-highlighter": "^12.2.1",
     "rimraf": "^3.0.2",
     "serve": "^11.3.1",
     "ts-node": "^8.10.2",

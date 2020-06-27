@@ -4,6 +4,48 @@ import toResponsiveProps, { ResponsiveProp } from '../modules/toResponsiveProps'
 import toResponsiveBreakpoint from '../modules/toResponsiveBreakpoint'
 import { Theme } from '@material-ui/core/styles'
 
+interface BaseKickOptions {
+  typeSizeModifier: number
+  baseFontSize: number
+  descenderHeightScale: number
+  capHeight: number
+  typeRowSpan: number
+  gridRowHeight: number
+}
+
+const basekick = ({
+  typeSizeModifier,
+  baseFontSize,
+  descenderHeightScale,
+  typeRowSpan,
+  gridRowHeight,
+  capHeight,
+}: BaseKickOptions) => {
+  const fontSize = typeSizeModifier * baseFontSize
+
+  const calculateTypeOffset = (lh: number) => {
+    const lineHeightScale = lh / fontSize
+    return (lineHeightScale - 1) / 2 + descenderHeightScale
+  }
+
+  const lineHeight = typeRowSpan * gridRowHeight
+  const typeOffset = calculateTypeOffset(lineHeight)
+
+  const topSpace = lineHeight - capHeight * fontSize
+  const heightCorrection =
+    topSpace > gridRowHeight ? topSpace - (topSpace % gridRowHeight) : 0
+
+  const preventCollapse = 1
+
+  return {
+    fontSize,
+    lineHeight,
+    typeOffset,
+    preventCollapse,
+    heightCorrection,
+  }
+}
+
 export interface TextProps {
   id?: string
   children: ReactNode
@@ -13,42 +55,33 @@ export interface TextProps {
   truncate?: boolean
 }
 
-const fontSizes = {
-  xsmall: 12,
-  small: 14,
-  standard: 16,
-  large: 18,
-}
-
-const lineHeights = {
-  xsmall: 20,
-  small: 20,
-  standard: 24,
-  large: 28,
-}
-
-const fontWeights = {
-  regular: 400,
-  medium: 500,
-  strong: 700,
-}
-
-const fontSize = ({ size = 'standard' }: TextProps) =>
-  `font-size: ${fontSizes[size]}px;`
-
-const lineHeight = ({ size = 'standard' }: TextProps) =>
-  `line-height: ${lineHeights[size]}px;`
-
-const fontWeight = ({ weight = 'regular' }: TextProps) =>
-  `font-weight: ${fontWeights[weight]};`
-
-const truncateWithEllipses = ({ truncate }: TextProps) =>
-  truncate &&
+const fontStyles = ({
+  size = 'standard',
+  theme,
+}: TextProps & { theme: Theme }) => {
+  const tablet = basekick({
+    baseFontSize: 1,
+    typeSizeModifier: theme.treat.typography.text[size].tablet.size,
+    typeRowSpan: theme.treat.typography.text[size].tablet.rows,
+    gridRowHeight: theme.treat.grid,
+    descenderHeightScale: theme.treat.typography.descenderHeightScale,
+    capHeight: theme.treat.typography.capHeightScale,
+  })
+  return `
+    font-family: ${theme.treat.typography.fontFamily};
+    font-size: ${tablet.fontSize}px;
+    letter-spacing: normal;
+    line-height: ${tablet.lineHeight}px;
+    transform: translateY(${tablet.typeOffset}em);
+    padding-top: ${tablet.preventCollapse}px;
+    &::before {
+      content: "";
+      margin-top: -${tablet.heightCorrection + tablet.preventCollapse}px;
+      display: block;
+      height: 0;
+    }
   `
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  `
+}
 
 const textAlign = ({ align, theme }: TextProps & { theme: Theme }) =>
   align &&
@@ -62,23 +95,22 @@ const textAlign = ({ align, theme }: TextProps & { theme: Theme }) =>
       `,
   )
 
-const StyledText = styled.div<TextProps>`
-  ${fontSize}
-  ${lineHeight}
-  ${fontWeight}
+const StyledText = styled.span<TextProps>`
+  display: block;
+  ${fontStyles}
   ${textAlign}
-  ${truncateWithEllipses}
+`
+
+const TruncatedText = styled.span`
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 const Text = ({ id, children, size, weight, align, truncate }: TextProps) => (
-  <StyledText
-    id={id}
-    size={size}
-    weight={weight}
-    align={align}
-    truncate={truncate}
-  >
-    {children}
+  <StyledText id={id} size={size} weight={weight} align={align}>
+    {truncate ? <TruncatedText>{children}</TruncatedText> : children}
   </StyledText>
 )
 
